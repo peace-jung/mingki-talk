@@ -2,11 +2,17 @@ const express = require('express');
 const PORT = process.env.PORT;
 const app = express();
 
-app.get('/', (req, res) => {
-  console.log('check in');
-  res.send({ result: 'hello mingki' });
-});
+// middleware
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log('mingki-talk server is on. port:', PORT);
+// database
+require('./postgre');
+
+// router
+const api = require('./routes');
+app.use('/api', api);
+
+app.listen(PORT || 3000, err => {
+  if (err) throw err;
+  console.log('server on');
 });
