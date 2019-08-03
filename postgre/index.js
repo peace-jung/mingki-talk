@@ -9,11 +9,11 @@ const client = new Client({
 });
 
 client.connect((err, client) => {
-  console.log('err: ', err);
-  console.log('client: ', client);
-});
-
-client.query('SELECT NOW()', (err, res) => {
-  console.log(err, res);
-  client.end();
+  if (err) throw err;
+  console.log('connecting successfully');
+  client.query('SELECT NOW()', (err, res) => {
+    if (err) throw err;
+    console.log('success');
+    client.end();
+  });
 });
