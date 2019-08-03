@@ -1,9 +1,5 @@
 const { Client } = require('pg');
-// const {
-//   postgresql: { user, password, host, port, database }
-// } = require('../config.json');
-
-// const connectionString = `tcp://${user}:${password}@${host}:${port}/${database}`;
+require('dotenv').config();
 const client = new Client({
   connectionString: process.env.DATABASE_URL
 });
