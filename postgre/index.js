@@ -4,6 +4,8 @@ const {
 } = require('../config.json');
 
 // const connectionString = `tcp://${user}:${password}@${host}:${port}/${database}`;
+console.log(process.env);
+console.log(process.env.DATABASE_URL);
 const client = new Client({
   user,
   host,
