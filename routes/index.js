@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  console.log('check in');
-  res.send({ result: 'hello mingki' });
-});
+// import routers
+const user = require('./user');
+const list = require('./list');
+
+// use routers
+router.use('/user', user);
+router.use('/list', list);
 
 module.exports = router;

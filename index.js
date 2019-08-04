@@ -12,6 +12,7 @@ require('./postgre');
 const api = require('./routes');
 app.use('/api', api);
 
+// server on
 app.listen(PORT || 3000, err => {
   if (err) throw err;
   console.log('server on');
