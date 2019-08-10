@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const method = req.body.method; // [SELECT, INSERT, DELETE, UPDATE]
-  const service = req.body.service; // [ALL, USER, SEARCH]
+  const service = req.body.service; // [ALL, USERINFO, SEARCH]
 
   if (isUndefined([method, service])) {
     return res.status(400).json({
@@ -23,26 +23,50 @@ router.post('/', async (req, res) => {
   let result = {};
   switch (method) {
     case 'SELECT':
+      const tokenId = req.body.tokenId;
+      const userId = req.body.userId;
       data = {
-        service
+        service,
+        tokenId,
+        userId
       };
       result = await user.select(data);
       break;
     case 'INSERT':
+      const {
+        id,
+        password,
+        name,
+        phone = null,
+        profile_img = null,
+        title = null,
+        birthday = null
+      } = req.body;
+
       data = {
-        service
+        id,
+        password,
+        name,
+        phone,
+        profile_img,
+        title,
+        birthday
       };
-      result = user.insert(data);
+      result = await user.insert(data);
       break;
     case 'DELETE':
       data = {
-        service
+        service,
+        tokenId,
+        userId
       };
       result = user.delete(data);
       break;
     case 'UPDATE':
       data = {
-        service
+        service,
+        tokenId,
+        userId
       };
       result = user.update(data);
       break;
@@ -57,9 +81,7 @@ router.post('/', async (req, res) => {
     });
   }
 
-  console.log('object', result.rows);
-
-  res.send({ result: result.rows });
+  res.send(result);
 });
 
 module.exports = router;
