@@ -59,7 +59,7 @@ module.exports = client => {
 
     try {
       const result = await client.query(query);
-      return { result: success, data: result.rows };
+      return { result: 'success', data: result.rows };
     } catch (err) {
       return { error: err, code: err.code || 400 };
     }
