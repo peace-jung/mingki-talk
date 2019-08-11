@@ -3,10 +3,7 @@ const { isUndefined } = require('./../utils/validate');
 module.exports = client => {
   const _insert = async data => {
     if (isUndefined(data)) {
-      return res.status(400).json({
-        error: 'Check Parameters',
-        code: '400'
-      });
+      return { error: 'Check Parameters', code: 400 };
     }
 
     const { id, password, name, phone, profile_img, title, birthday } = data;
