@@ -18,13 +18,15 @@ router.post('/', async (req, res) => {
   let result = {};
   switch (method) {
     case 'SELECT':
+      data = {
+        my_id: req.body.my_id
+      };
       result = await friend.select(data);
       break;
     case 'INSERT':
-      const { my_id, f_id } = req.body;
       data = {
-        my_id,
-        f_id
+        my_id: req.body.my_id,
+        f_id: req.body.f_id
       };
       result = await friend.insert(data);
       break;

@@ -96,9 +96,9 @@ module.exports = client => {
   };
 
   return {
-    insert: query => _insert(query),
-    select: query => _select(query),
-    update: query => _update(query),
-    delete: query => _delete(query)
+    insert: data => _insert(data),
+    select: data => _select(data),
+    update: data => _update(data),
+    delete: data => _delete(data)
   };
 };

@@ -20,25 +20,42 @@ module.exports = client => {
     }
   };
 
-  const _select = query => {
-    console.log('select', query);
-    return 'select';
+  const _select = async data => {
+    if (isUndefined(data)) {
+      return { error: 'Check Parameters', code: 400 };
+    }
+    const { my_id } = data;
+    const query = {
+      name: 'select-friend',
+      text: 'SELECT my_id, f_id FROM public."friend" WHERE my_id = $1',
+      values: [my_id]
+    };
+
+    try {
+      const result = await client.query(query);
+      if (result.rows.length === 0) {
+        return { error: 'Not Found', code: 404 };
+      }
+      return { result: 'success', data: result.rows };
+    } catch (err) {
+      return { error: err, code: 400 };
+    }
   };
 
-  const _update = query => {
-    console.log('update', query);
+  const _update = async data => {
+    console.log('update', data);
     return 'update';
   };
 
-  const _delete = query => {
-    console.log('delete', query);
+  const _delete = async data => {
+    console.log('delete', data);
     return 'delete';
   };
 
   return {
-    insert: query => _insert(query),
-    select: query => _select(query),
-    update: query => _update(query),
-    delete: query => _delete(query)
+    insert: data => _insert(data),
+    select: data => _select(data),
+    update: data => _update(data),
+    delete: data => _delete(data)
   };
 };
