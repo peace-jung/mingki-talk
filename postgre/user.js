@@ -25,9 +25,10 @@ module.exports = client => {
     }
   };
 
-  const _select = async args => {
-    const { service, tokenId } = args;
+  const _select = async data => {
+    const { service } = data;
     let query = '';
+
     switch (service) {
       // 유저 전체 리스트 조회
       case 'ALLUSER':
@@ -35,33 +36,40 @@ module.exports = client => {
           name: 'all-user',
           text: 'SELECT * FROM public."user"'
         };
-        break;
+
+        try {
+          const result = await client.query(query);
+          return { result: 'success', data: result.rows };
+        } catch (err) {
+          return { error: err, code: err.code || 400 };
+        }
       // 특정 유저 정보 조회
       case 'USERINFO':
-        const { userId } = args;
+        const { userId, password } = data;
         query = {
           name: 'user-info',
-          text: 'SELECT * FROM public."user" WHERE id = $1',
-          values: [userId]
+          text:
+            'SELECT id, name, phone, profile_img, title, birthday FROM public."user" WHERE id = $1 AND password = $2',
+          values: [userId, password]
         };
-        break;
+
+        try {
+          const result = await client.query(query);
+          if (result.rows.length === 0)
+            return { error: err, code: err.code || 404 };
+          return { result: 'success', data: result.rows };
+        } catch (err) {
+          return { error: err, code: err.code || 400 };
+        }
       // 유저 검색
       case 'SEARCH':
         query = {
-          name: 'user-info',
+          name: 'user-search',
           text: 'SELECT * FROM public."user" WHERE id = $1',
           values: [userId]
         };
-        break;
       default:
         return { error: 'Check Service', code: 400 };
-    }
-
-    try {
-      const result = await client.query(query);
-      return { result: 'success', data: result.rows };
-    } catch (err) {
-      return { error: err, code: err.code || 400 };
     }
   };
 

@@ -23,14 +23,7 @@ router.post('/', async (req, res) => {
   let result = {};
   switch (method) {
     case 'SELECT':
-      const tokenId = req.body.tokenId;
-      const userId = req.body.userId;
-      data = {
-        service,
-        tokenId,
-        userId
-      };
-      result = await user.select(data);
+      result = await user.select(req.body);
       break;
     case 'INSERT':
       const {
