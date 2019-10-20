@@ -1,10 +1,14 @@
 const { isUndefined } = require('./../../utils/validate');
 
 module.exports = client => {
+  /**
+   * getAllUser
+   * NOTE test 용 전체 유저 리스트
+   */
   const getAllUser = async () => {
     const query = {
       name: 'all-user',
-      text: 'SELECT * FROM public."user"'
+      text: `SELECT * FROM public."user"`
     };
 
     try {
@@ -15,12 +19,17 @@ module.exports = client => {
     }
   };
 
+  /**
+   * login
+   * @param userId
+   * @param userPw
+   */
   const login = async data => {
     const { userId, userPw } = data;
     const query = {
       name: 'user-info',
-      text:
-        'SELECT id, name, phone, profile_img, title, birthday FROM public."user" WHERE id = $1 AND password = $2',
+      text: `SELECT (id, name, phone, profile_img, title, birthday) FROM public."user"
+        WHERE (id = $1 AND password = $2)`,
       values: [userId, userPw]
     };
 
@@ -33,6 +42,12 @@ module.exports = client => {
     }
   };
 
+  /**
+   * login
+   * @param userId
+   * @param userPw
+   * @param name
+   */
   const signup = async data => {
     if (isUndefined(data)) {
       return { error: 'Check Parameters', code: 400 };

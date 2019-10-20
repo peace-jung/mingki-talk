@@ -3,6 +3,7 @@ const router = express.Router();
 const { isUndefined } = require('./../../../utils/validate');
 const { user } = require('./../../../postgre');
 
+// SECTION /instagram/user/login
 /**
  * get token
  * /instagram/user/login

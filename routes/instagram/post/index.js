@@ -4,18 +4,45 @@ const router = express.Router();
 const { isUndefined } = require('./../../../utils/validate');
 const { post } = require('./../../../postgre');
 
-router.get('/', (req, res) => {
-  console.log('GET / : check in');
-  // console.log('postgre', list.insert({ id: '1111', pw: '1111' }));
-  res.send({ result: 'hello mingki', type: 'GET' });
+// SECTION /instagram/post
+// 유저 1명의 게시글 리스트 가져오기
+router.get('/', async (req, res) => {
+  const userId = req.query.id;
+
+  console.log('Get User Post', userId);
+
+  if (isUndefined([userId])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: '400',
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+
+  const result = await post.get({ userId });
+
+  // TODO Image List 를 찾아서 줘야함
+  if (result.error) {
+    return res.status(result.code).json({
+      error: result.error,
+      code: result.code
+    });
+  }
+  console.log(result);
+  return res.send({
+    result: 'success',
+    resultCode: 200,
+    message: '데이터 삽입 성공'
+  });
 });
 
-router.post('/', (req, res) => {
+// 글쓰기
+router.post('/', async (req, res) => {
   const userId = req.body.userId;
   const photo = req.body.photo;
   const content = req.body.content;
 
-  console.log('Upload Post');
+  console.log('Upload Post', userId, photo, content);
 
   if (isUndefined([userId, photo, content])) {
     return res.status(400).json({
@@ -24,8 +51,20 @@ router.post('/', (req, res) => {
       message: '파라미터 값이 없습니다.'
     });
   }
-  // console.log('postgre', list.select({ id: '1111', pw: '1111' }));
-  res.send({ result: 'hello mingki', type: 'POST' });
+
+  const result = await post.upload({ userId, photo, content });
+  if (result.error) {
+    return res.status(result.code).json({
+      error: result.error,
+      code: result.code
+    });
+  }
+  console.log(result);
+  return res.send({
+    result: 'success',
+    resultCode: 200,
+    data: result.rows
+  });
 });
 
 module.exports = router;
