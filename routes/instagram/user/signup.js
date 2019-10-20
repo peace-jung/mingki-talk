@@ -5,6 +5,7 @@ const { user } = require('./../../../postgre');
 
 /**
  * signup
+ * /instagram/user/signup
  */
 router.post('/', async (req, res) => {
   const {

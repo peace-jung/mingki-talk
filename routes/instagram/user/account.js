@@ -5,9 +5,10 @@ const { user } = require('./../../../postgre');
 
 /**
  * get token
+ * /instagram/user/login
  */
 router.get('/', async (req, res) => {
-  console.log('GET /instagram/user/');
+  console.log('GET /instagram/user/login');
   const users = await user.account.getAllUser();
   console.log(users);
   res.send({ result: 'hello mingki', type: 'GET' });
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
 
 /**
  * login
+ * /instagram/user/login
  */
 router.post('/', async (req, res) => {
   const userId = req.body.userId;

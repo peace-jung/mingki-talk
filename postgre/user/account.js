@@ -1,6 +1,20 @@
 const { isUndefined } = require('./../../utils/validate');
 
 module.exports = client => {
+  const getAllUser = async () => {
+    const query = {
+      name: 'all-user',
+      text: 'SELECT * FROM public."user"'
+    };
+
+    try {
+      const result = await client.query(query);
+      return { result: 'success', data: result.rows };
+    } catch (err) {
+      return { error: err, code: err.code || 400 };
+    }
+  };
+
   const login = async data => {
     const { userId, userPw } = data;
     const query = {
