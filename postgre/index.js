@@ -15,7 +15,8 @@ client.connect((err, client) => {
 });
 
 const user = require('./user')(client);
-const list = require('./list')(client);
-const friend = require('./friend')(client);
+const post = require('./post')(client);
+// const list = require('./list')(client);
+// const friend = require('./friend')(client);
 
-module.exports = { client, user, list, friend };
+module.exports = { client, user, post };

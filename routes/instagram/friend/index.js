@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { isUndefined } = require('./../../utils/validate');
-const { friend } = require('./../../postgre');
+const { isUndefined } = require('./../../../utils/validate');
+const { friend } = require('./../../../postgre');
 
 router.post('/', async (req, res) => {
   const method = req.body.method; // [SELECT, INSERT, DELETE, UPDATE]

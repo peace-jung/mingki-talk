@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { list } = require('./../../postgre');
+const { list } = require('./../../../postgre');
 
 router.get('/', (req, res) => {
   console.log('GET / : check in');

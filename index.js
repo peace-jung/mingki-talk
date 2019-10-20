@@ -9,8 +9,8 @@ app.use(express.json());
 require('./postgre');
 
 // router
-const api = require('./routes');
-app.use('/api', api);
+const routes = require('./routes');
+app.use('/', routes);
 
 // server on
 app.listen(PORT || 3000, err => {
