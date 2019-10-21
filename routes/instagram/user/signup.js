@@ -9,15 +9,13 @@ const { user } = require('./../../../postgre');
  * /instagram/user/signup
  */
 router.post('/', async (req, res) => {
-  const {
-    userId,
-    userPw,
-    name,
-    phone = null,
-    profile_img = null,
-    title = null,
-    birthday = null
-  } = req.body;
+  const userId = req.body.userId;
+  const userPw = req.body.userPw;
+  const name = req.body.name;
+  const phone = req.body.phone || null;
+  const profile_img = req.body.profile_img || null;
+  const title = req.body.title || null;
+  const birthday = req.body.birthday || null;
 
   if (isUndefined([userId, userPw, name])) {
     return res.status(400).json({
