@@ -4,6 +4,8 @@
 
 
 
+## 계정
+
 ### 회원가입
 
 #### POST /instagram/user/signup
@@ -20,15 +22,32 @@
 
 Return
 
+```json
 {
 	result: 'success',
 	resultCode: 200,
 	message: '사용자 추가 완료'
 
-{
-	error: err,
-	code: err.code
 }
+```
+
+```json
+// 에러는 다 이런식으로 보낼 예정
+{
+	error: err, // String
+	code: err.code, // Number
+	message: err.code // String
+}
+```
+
+| Code | 원인               |
+| ---- | ------------------ |
+| 200  | 성공               |
+| 400  | 파라미터 확인 필요 |
+| 409  | 아이디 중복        |
+| 500  | 서버 문제          |
+
+
 
 ### 로그인
 
@@ -41,12 +60,34 @@ Return
 
 Return
 
+```json
 {
-	"result": "success",
-	"data": [{ id, name, phone, profile_img, title, birthday }]
+	result: "success",
+	resultCode: 200,
+	data: [{ id, name, phone, profile_img, title, birthday }]
 }
+```
+
+```json
+// 에러는 다 이런식으로 보낼 예정
+{
+	error: err, // String
+	code: err.code, // Number
+	message: err.code // String
+}
+```
+
+| Code | 원인               |
+| ---- | ------------------ |
+| 200  | 성공               |
+| 400  | 파라미터 확인 필요 |
+| 4041 | 아이디 없음        |
+| 4042 | 비밀번호 틀림      |
+| 500  | 서버 문제          |
 
 
+
+## 게시글
 
 ### 유저 1명의 게시글 가져오기
 
@@ -56,21 +97,30 @@ Return
 | :--- | :---- | :----------------- |
 | Id   | id    | 조회할 유저 아이디 |
 
+```json
 {
-​	"result": "success",
-​	"resultCode": 200,
-​	"data": [
-​		{
-​			"created": "1571581652117",
-​			"id": "mink",
-​			"content": "밍크으으으ㅡ으으응",
-​			"photo": [
-​				"test1", // 여기는 image url 을 줄 예정
-​				"test2"
-​			]
-​		}
-​	]
+	result: "success",
+	resultCode: 200,
+	data: [
+		{
+			"created": "1571581652117",
+			"id": "mink",
+			"content": "밍크으으으ㅡ으으응",
+			"photo": [
+				"test1", // 여기는 image url 을 줄 예정
+				"test2"
+			]
+		}
+	]
 }
+```
+
+| Code | 원인      |
+| ---- | --------- |
+| 200  | 성공      |
+| 500  | 서버 문제 |
+
+
 
 ### 게시글 쓰기
 
@@ -82,11 +132,27 @@ Return
 | photo   | string[]  | 이거 바꿔야함. 일단 테스트로 문자열 배열로 보내세요. | Not Null |
 | content | string    |                                                      | Not Null |
 
+```json
 {
 	result: 'success',
 	resultCode: 200,
 	message: '데이터 삽입 성공'
 }
+```
+
+| Code | 원인      |
+| ---- | --------- |
+| 200  | 성공      |
+| 404  | 없는 유저 |
+| 500  | 서버 문제 |
+
+
+
+---
+
+---
+
+---
 
 
 
@@ -127,7 +193,7 @@ Return
 
 ~~~~ 
 
-~~~~ 
+~~~~
 
 ### ~~POST /api/friend~~
 
@@ -152,4 +218,4 @@ Return
 
 ~~~~ 
 
-~~~~ 
+~~~~

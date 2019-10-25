@@ -28,17 +28,14 @@ router.post('/', async (req, res) => {
   if (isUndefined([userId, userPw])) {
     return res.status(400).json({
       error: 'Check Parameters',
-      code: '400',
+      code: 400,
       message: '파라미터 값이 없습니다.'
     });
   }
 
   const result = await user.account.login({ userId, userPw });
   if (result.error) {
-    return res.status(result.code).json({
-      error: result.error,
-      code: result.code
-    });
+    return res.status(400).json(result);
   }
 
   return res.send(result);

@@ -2,7 +2,7 @@ module.exports = client => {
   const _get = async data => {
     const { userId } = data;
     const query = {
-      name: 'insert-post',
+      name: 'get-post',
       text: `SELECT created, id, content, photo FROM public.post
         WHERE (id = $1)`,
       values: [userId]
@@ -10,10 +10,10 @@ module.exports = client => {
 
     try {
       const result = await client.query(query);
-      return result;
+      return { result: 'success', resultCode: 200, data: result.rows };
     } catch (err) {
-      console.error(err);
-      return { error: err, code: err.code || 400 };
+      console.error('Get Post ERROR', err);
+      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
 
@@ -30,10 +30,16 @@ module.exports = client => {
 
     try {
       const result = await client.query(query);
-      return result;
+      return {
+        result: 'success',
+        resultCode: 200,
+        message: '데이터 삽입 성공'
+      };
     } catch (err) {
-      console.error(err);
-      return { error: err, code: err.code || 400 };
+      if (String(err.code) === '23503')
+        return { error: 'Not Found User', code: 404, message: '없는 유저' };
+      console.error('Upload Post ERROR', err);
+      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
 

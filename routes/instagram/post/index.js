@@ -23,17 +23,10 @@ router.get('/', async (req, res) => {
 
   // TODO Image List 를 찾아서 줘야함
   if (result.error) {
-    return res.status(result.code).json({
-      error: result.error,
-      code: result.code
-    });
+    return res.status(400).json(result);
   }
   console.log(result);
-  return res.send({
-    result: 'success',
-    resultCode: 200,
-    message: '데이터 삽입 성공'
-  });
+  return res.send(result);
 });
 
 // 글쓰기
@@ -54,17 +47,10 @@ router.post('/', async (req, res) => {
 
   const result = await post.upload({ userId, photo, content });
   if (result.error) {
-    return res.status(result.code).json({
-      error: result.error,
-      code: result.code
-    });
+    return res.status(400).json(result);
   }
   console.log(result);
-  return res.send({
-    result: 'success',
-    resultCode: 200,
-    data: result.rows
-  });
+  return res.send(result);
 });
 
 module.exports = router;

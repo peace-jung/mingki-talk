@@ -1,3 +1,4 @@
+const { Pool } = require('pg');
 const { isUndefined } = require('./../../utils/validate');
 
 module.exports = client => {
@@ -15,7 +16,7 @@ module.exports = client => {
       const result = await client.query(query);
       return { result: 'success', data: result.rows };
     } catch (err) {
-      return { error: err, code: err.code || 400 };
+      return { error: err, resultCode: 200, code: err.code || 400 };
     }
   };
 
@@ -26,7 +27,13 @@ module.exports = client => {
    */
   const login = async data => {
     const { userId, userPw } = data;
-    const query = {
+    const queryId = {
+      name: 'user-id',
+      text: `SELECT (id, name) FROM public."user"
+        WHERE (id = $1)`,
+      values: [userId]
+    };
+    const queryInfo = {
       name: 'user-info',
       text: `SELECT (id, name, phone, profile_img, title, birthday) FROM public."user"
         WHERE (id = $1 AND password = $2)`,
@@ -34,23 +41,42 @@ module.exports = client => {
     };
 
     try {
-      const result = await client.query(query);
-      if (result.rows.length === 0) return { error: 'Not Found', code: 404 };
-      return { result: 'success', data: result.rows };
+      const result = await client.query(queryId);
+      if (result.rows.length === 0)
+        return {
+          error: 'Not Found User',
+          code: 4041,
+          message: '존재하지 않는 아이디'
+        };
+
+      const result2 = await client.query(queryInfo);
+      if (result2.rows.length === 0)
+        return {
+          error: 'Wrong Password',
+          code: 4042,
+          message: '잘못된 비밀번호'
+        };
+
+      return { result: 'success', resultCode: 200, data: result2.rows };
     } catch (err) {
-      return { error: err, code: err.code || 400 };
+      console.error('Login ERROR', err);
+      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
 
   /**
-   * login
+   * signup
    * @param userId
    * @param userPw
    * @param name
    */
   const signup = async data => {
     if (isUndefined(data)) {
-      return { error: 'Check Parameters', code: 400 };
+      return {
+        error: 'Check Parameters',
+        code: 400,
+        message: '파라미터 값이 없습니다.'
+      };
     }
 
     const { userId, userPw, name, phone, profile_img, title, birthday } = data;
@@ -70,7 +96,11 @@ module.exports = client => {
         message: '사용자 추가 완료'
       };
     } catch (err) {
-      return { error: err, code: 400 };
+      console.error('Sign Up ERROR', err);
+      if (String(result.error) === '23505')
+        return { error: 'Unique ID', code: 409, message: '아이디 중복' };
+      else
+        return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
 
