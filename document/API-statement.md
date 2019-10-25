@@ -22,21 +22,20 @@
 
 Return
 
-```json
+```
 {
 	result: 'success',
 	resultCode: 200,
 	message: '사용자 추가 완료'
-
 }
 ```
 
-```json
+```
 // 에러는 다 이런식으로 보낼 예정
 {
-	error: err, // String
+	error: 'You Fired', // String
 	code: err.code, // Number
-	message: err.code // String
+	message: '니가 잘못해서 에러났어' // String
 }
 ```
 
@@ -60,7 +59,7 @@ Return
 
 Return
 
-```json
+```
 {
 	result: "success",
 	resultCode: 200,
@@ -68,7 +67,7 @@ Return
 }
 ```
 
-```json
+```
 // 에러는 다 이런식으로 보낼 예정
 {
 	error: err, // String
@@ -97,7 +96,7 @@ Return
 | :--- | :---- | :----------------- |
 | Id   | id    | 조회할 유저 아이디 |
 
-```json
+```
 {
 	result: "success",
 	resultCode: 200,
@@ -132,7 +131,7 @@ Return
 | photo   | string[]  | 이거 바꿔야함. 일단 테스트로 문자열 배열로 보내세요. | Not Null |
 | content | string    |                                                      | Not Null |
 
-```json
+```
 {
 	result: 'success',
 	resultCode: 200,
