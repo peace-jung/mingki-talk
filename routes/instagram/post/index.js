@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   if (isUndefined([userId])) {
     return res.status(400).json({
       error: 'Check Parameters',
-      code: '400',
+      code: 400,
       message: '파라미터 값이 없습니다.'
     });
   }
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
   if (isUndefined([userId, photo, content])) {
     return res.status(400).json({
       error: 'Check Parameters',
-      code: '400',
+      code: 400,
       message: '파라미터 값이 없습니다.'
     });
   }
