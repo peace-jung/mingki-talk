@@ -15,10 +15,10 @@
 | userId          | string     | ID                | Not Null |
 | userPw          | string     | PW                | Not Null |
 | name            | string     | 이름              | Not Null |
-| ~~phone~~       | ~~string~~ | ~~전화번호~~      |          |
-| ~~profile_img~~ |            | ~~프로필 이미지~~ |          |
-| ~~title~~       | ~~string~~ | ~~소개 ?~~        |          |
-| ~~birthday~~    |            | ~~생일~~          |          |
+| phone       | string | 전화번호      |          |
+| profile_img | 미정 | 프로필 이미지 |          |
+| title       | string | 소개글       |          |
+| birthday    | timestamp | 생일          |          |
 
 Return
 
@@ -79,13 +79,13 @@ Return
 
 ## 게시글
 
-### 유저 1명의 게시글 가져오기
+### 특정 유저의 게시글 가져오기
 
-#### GET /instagram/user/post?id=userId (Query Parameter)
+#### GET /instagram/post/userId (userId는 알아서 가변적으로 쓰세용)
 
-| Key  | Value | Desc.              |
-| :--- | :---- | :----------------- |
-| Id   | id    | 조회할 유저 아이디 |
+| Key    | Value  | Desc.              |
+| :----- | :----- | :----------------- |
+| userId | userId | 조회할 유저 아이디 |
 
 ```
 {
@@ -109,13 +109,50 @@ Return
 | ---- | ------------------ |
 | 200  | 성공               |
 | 400  | 파라미터 확인 필요 |
+| 404  | 없는 유저          |
+| 500  | 서버 문제          |
+
+
+
+### 특정 유저의, 특정 게시글 가져오기
+
+#### GET /instagram/post/userId/postId (postId도 알아서 가변적으로 쓰세용)
+
+| Key    | Value   | Desc.                                       |
+| :----- | :------ | :------------------------------------------ |
+| userId | userId  | 조회할 유저 아이디                          |
+| postId | created | 게시글 아이디 (게시글 등록일자의 timestamp) |
+
+```
+{
+	result: "success",
+	resultCode: 200,
+	data: [
+		{
+			"created": "1571581652117",
+			"id": "mink",
+			"content": "밍크으으으ㅡ으으응",
+			"photo": [
+				"test1", // 여기는 image url 을 줄 예정
+				"test2"
+			]
+		}
+	]
+}
+```
+
+| Code | 원인               |
+| ---- | ------------------ |
+| 200  | 성공               |
+| 400  | 파라미터 확인 필요 |
+| 404  | 없는 유저          |
 | 500  | 서버 문제          |
 
 
 
 ### 게시글 쓰기
 
-#### POST /instagram/user/post
+#### POST /instagram/post
 
 | Key     | Data Type | Desc.                                                |          |
 | :------ | :-------- | :--------------------------------------------------- | :------- |
@@ -137,6 +174,24 @@ Return
 | 400  | 파라미터 확인 필요 |
 | 404  | 없는 유저          |
 | 500  | 서버 문제          |
+
+
+
+## 유저
+
+개발중
+
+### 유저 검색
+
+#### GET /instagram/search/user (user = userId or name)
+
+
+
+### 유저 팔로우
+
+#### POST /instagram/follow
+
+
 
 
 

@@ -1,17 +1,22 @@
 module.exports = client => {
   const _get = async data => {
-    const { userId } = data;
+    const userId = data.userId;
+    const postId = data.postId;
+
     const query = {
-      name: 'get-post',
-      text: `SELECT created, id, content, photo FROM public.post
-        WHERE (id = $1)`,
-      values: [userId]
+      name: postId ? 'get-post' : 'get-posts',
+      text:
+        `SELECT created, id, content, photo FROM public.post
+        WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
+      values: postId ? [userId, postId] : [userId]
     };
 
     try {
       const result = await client.query(query);
       return { result: 'success', resultCode: 200, data: result.rows };
     } catch (err) {
+      if (String(err.code) === '23503')
+        return { error: 'Not Found User', code: 404, message: '없는 유저' };
       console.error('Get Post ERROR', err);
       return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }

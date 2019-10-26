@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+// SECTION /instagram
+
 // import routers
 const user = require('./user');
 const post = require('./post');

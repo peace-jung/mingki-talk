@@ -1,4 +1,3 @@
-const { Pool } = require('pg');
 const { isUndefined } = require('./../../utils/validate');
 
 module.exports = client => {
@@ -16,7 +15,27 @@ module.exports = client => {
       const result = await client.query(query);
       return { result: 'success', data: result.rows };
     } catch (err) {
-      return { error: err, resultCode: 200, code: err.code || 400 };
+      return { error: err, resultCode: 500, code: err.code || 400 };
+    }
+  };
+
+  /**
+   * checkUserExist
+   * NOTE test 용 전체 유저 리스트
+   */
+  const checkUserExist = async userId => {
+    const query = {
+      name: 'userExist',
+      text: `SELECT (id, name, profile_img) FROM public."user" WHERE (id = $1)`,
+      values: [userId]
+    };
+
+    try {
+      const result = await client.query(query);
+      return { result: 'success', data: result.rows };
+    } catch (err) {
+      console.log(err);
+      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
 
@@ -106,6 +125,7 @@ module.exports = client => {
 
   return {
     getAllUser: () => getAllUser(),
+    checkUserExist: userid => checkUserExist(userid),
     login: data => login(data),
     signup: data => signup(data)
   };
