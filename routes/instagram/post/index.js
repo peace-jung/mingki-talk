@@ -93,9 +93,11 @@ router.get('/:userId/:postId', async (req, res) => {
 // 글쓰기
 router.post('/', upload.array('file', 5), async (req, res) => {
   const userId = req.body.userId;
-  const photos = req.files;
   const content = req.body.content;
+  const photos = req.files;
 
+  console.log('photos', photos)
+  
   const newPhotos = photos.map(p => {
     return {
       fieldname: p.fieldname,
@@ -106,6 +108,7 @@ router.post('/', upload.array('file', 5), async (req, res) => {
       size: p.size
     };
   });
+  console.log('newPhotos', newPhotos)
 
   console.log('Upload Post', userId, newPhotos, content);
 
