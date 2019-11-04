@@ -6,7 +6,7 @@ module.exports = client => {
     const query = {
       name: postId ? 'get-post' : 'get-posts',
       text:
-        `SELECT created, id, content, photo FROM public.post
+        `SELECT created, id, content, photos FROM public.post
         WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
       values: postId ? [userId, postId] : [userId]
     };
@@ -23,14 +23,14 @@ module.exports = client => {
   };
 
   const _upload = async data => {
-    const { userId, photo, content } = data;
+    const { userId, photos, content } = data;
     const created = Date.now();
     const query = {
       name: 'insert-post',
       text: `INSERT INTO public."post"(
-        id, photo, content, created)
+        id, photos, content, created)
         VALUES ($1, $2, $3, $4)`,
-      values: [userId, photo, content, created]
+      values: [userId, photos, content, created]
     };
 
     try {

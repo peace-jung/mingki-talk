@@ -1,5 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+const upload = multer({
+  dest: 'uploads/', // path
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+});
 
 const { isUndefined } = require('./../../../utils/validate');
 const { user, post } = require('./../../../postgre');
@@ -85,14 +91,25 @@ router.get('/:userId/:postId', async (req, res) => {
 });
 
 // 글쓰기
-router.post('/', async (req, res) => {
+router.post('/', upload.array('file', 5), async (req, res) => {
   const userId = req.body.userId;
-  const photo = req.body.photo;
+  const photos = req.files;
   const content = req.body.content;
 
-  console.log('Upload Post', userId, photo, content);
+  const newPhotos = photos.map(p => {
+    return {
+      fieldname: p.fieldname,
+      originalname: p.originalname,
+      mimetype: p.mimetype,
+      filename: p.filename,
+      fullPath: p.fullPath,
+      size: p.size
+    };
+  });
 
-  if (isUndefined([userId, photo, content])) {
+  console.log('Upload Post', userId, newPhotos, content);
+
+  if (isUndefined([userId, newPhotos, content])) {
     return res.status(400).json({
       error: 'Check Parameters',
       code: 400,
@@ -100,7 +117,7 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const result = await post.upload({ userId, photo, content });
+  const result = await post.upload({ userId, photos: newPhotos, content });
   if (result.error) {
     return res.status(400).json(result);
   }
