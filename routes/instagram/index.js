@@ -28,7 +28,7 @@ router.get('/download/:filename', async (req, res) => {
   }
 
   const file = await fs.readFileSync(
-    path.join(__dirname, '../../uploads/') + '/' + filename,
+    path.join(__dirname, '../../uploads/instagram') + '/' + filename,
     'binary'
   );
 
