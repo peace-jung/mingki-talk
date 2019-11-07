@@ -92,7 +92,7 @@ router.get('/:userId/:postId', async (req, res) => {
 });
 
 // 글쓰기
-router.post('/', upload.array('file', 5), async (req, res) => {
+router.post('/', async (req, res) => {
   logger.info('Starting server', { body: body });
 
   const userId = req.body.userId;
