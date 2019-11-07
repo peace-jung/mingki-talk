@@ -92,7 +92,7 @@ router.get('/:userId/:postId', async (req, res) => {
 });
 
 // 글쓰기
-router.post('/', upload.array('file', 5), async (req, res) => {
+router.post('/', upload.any('file', 5), async (req, res) => {
   console.log(req.body);
   logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
 
