@@ -94,6 +94,7 @@ router.get('/:userId/:postId', async (req, res) => {
 // 글쓰기
 router.post('/', async (req, res) => {
   logger.info('Starting server', { body: body });
+  return res.send({result: '뭐라고 가나요'});
 
   const userId = req.body.userId;
   const content = req.body.content;
