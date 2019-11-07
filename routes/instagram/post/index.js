@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const logger = require('heroku-logger');
 
 const upload = multer({
   dest: 'uploads/instagram/', // path
@@ -92,12 +93,14 @@ router.get('/:userId/:postId', async (req, res) => {
 
 // 글쓰기
 router.post('/', upload.array('file', 5), async (req, res) => {
+  logger.info('Starting server', { body: body });
+
   const userId = req.body.userId;
   const content = req.body.content;
   const photos = req.files;
 
-  console.log('photos', photos)
-  
+  console.log('photos', photos);
+
   const newPhotos = photos.map(p => {
     return {
       fieldname: p.fieldname,
@@ -108,7 +111,7 @@ router.post('/', upload.array('file', 5), async (req, res) => {
       size: p.size
     };
   });
-  console.log('newPhotos', newPhotos)
+  console.log('newPhotos', newPhotos);
 
   console.log('Upload Post', userId, newPhotos, content);
 
