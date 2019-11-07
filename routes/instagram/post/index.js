@@ -92,13 +92,15 @@ router.get('/:userId/:postId', async (req, res) => {
 });
 
 // 글쓰기
-router.post('/', async (req, res) => {
-  logger.info('Starting server', { body: JSON.stringify(req.body) });
+router.post('/', upload.array('file', 5), async (req, res) => {
+  console.log(req.body);
+  logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
 
   const userId = req.body.userId;
   const content = req.body.content;
   const photos = req.files;
-  return res.send({result: '뭐라고 가나요'});
+  console.log('photos', photos)
+  return res.send({ result: '뭐라고 가나요' });
 
   console.log('photos', photos);
 
