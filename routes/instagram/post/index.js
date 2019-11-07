@@ -94,26 +94,26 @@ router.get('/:userId/:postId', async (req, res) => {
 // 글쓰기
 router.post('/', async (req, res) => {
   console.log('object');
-  upload(req, res, function(err) {
-    if (err instanceof multer.MulterError) {
-      console.error('err', err);
-      // A Multer error occurred when uploading.
-    } else if (err) {
-      console.error('err2', err);
-      // An unknown error occurred when uploading.
-    }
-    console.log(1, req.body);
+  // upload(req, res, function(err) {
+  //   if (err instanceof multer.MulterError) {
+  //     console.error('err', err);
+  //     // A Multer error occurred when uploading.
+  //   } else if (err) {
+  //     console.error('err2', err);
+  //     // An unknown error occurred when uploading.
+  //   }
+  //   console.log(1, req.body);
 
-    // Everything went fine.
+  //   // Everything went fine.
 
-    logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
+  //   logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
 
-    const userId = req.body.userId;
-    const content = req.body.content;
-    const photos = req.files;
-    console.log('photos', photos);
-    return res.send({ result: '뭐라고 가나요' });
-  });
+  //   const userId = req.body.userId;
+  //   const content = req.body.content;
+  //   const photos = req.files;
+  //   console.log('photos', photos);
+  // });
+  return res.send({ result: '뭐라고 가나요' });
 
   // console.log('photos', photos);
 
