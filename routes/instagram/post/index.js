@@ -93,6 +93,7 @@ router.get('/:userId/:postId', async (req, res) => {
 
 // 글쓰기
 router.post('/', async (req, res) => {
+  console.log('object');
   upload(req, res, function(err) {
     if (err instanceof multer.MulterError) {
       console.error('err', err);
