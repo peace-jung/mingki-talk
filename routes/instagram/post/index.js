@@ -6,7 +6,7 @@ const logger = require('heroku-logger');
 const upload = multer({
   dest: 'uploads/instagram/', // path
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB
-});
+}).array('file', 5);
 
 const { isUndefined } = require('./../../../utils/validate');
 const { user, post } = require('./../../../postgre');
@@ -92,46 +92,58 @@ router.get('/:userId/:postId', async (req, res) => {
 });
 
 // 글쓰기
-router.post('/', upload.any('file', 5), async (req, res) => {
-  console.log(req.body);
-  logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
+router.post('/', async (req, res) => {
+  upload(req, res, function(err) {
+    if (err instanceof multer.MulterError) {
+      console.error('err', err);
+      // A Multer error occurred when uploading.
+    } else if (err) {
+      console.error('err2', err);
+      // An unknown error occurred when uploading.
+    }
+    console.log(1, req.body);
 
-  const userId = req.body.userId;
-  const content = req.body.content;
-  const photos = req.files;
-  console.log('photos', photos)
-  return res.send({ result: '뭐라고 가나요' });
+    // Everything went fine.
 
-  console.log('photos', photos);
+    logger.info(JSON.stringify(req.body), { body: JSON.stringify(req.body) });
 
-  const newPhotos = photos.map(p => {
-    return {
-      fieldname: p.fieldname,
-      originalname: p.originalname,
-      mimetype: p.mimetype,
-      filename: p.filename,
-      fullPath: p.fullPath,
-      size: p.size
-    };
+    const userId = req.body.userId;
+    const content = req.body.content;
+    const photos = req.files;
+    console.log('photos', photos);
+    return res.send({ result: '뭐라고 가나요' });
   });
-  console.log('newPhotos', newPhotos);
 
-  console.log('Upload Post', userId, newPhotos, content);
+  // console.log('photos', photos);
 
-  if (isUndefined([userId, newPhotos, content])) {
-    return res.status(400).json({
-      error: 'Check Parameters',
-      code: 400,
-      message: '파라미터 값이 없습니다.'
-    });
-  }
+  // const newPhotos = photos.map(p => {
+  //   return {
+  //     fieldname: p.fieldname,
+  //     originalname: p.originalname,
+  //     mimetype: p.mimetype,
+  //     filename: p.filename,
+  //     fullPath: p.fullPath,
+  //     size: p.size
+  //   };
+  // });
+  // console.log('newPhotos', newPhotos);
 
-  const result = await post.upload({ userId, photos: newPhotos, content });
-  if (result.error) {
-    return res.status(400).json(result);
-  }
-  console.log(result);
-  return res.send(result);
+  // console.log('Upload Post', userId, newPhotos, content);
+
+  // if (isUndefined([userId, newPhotos, content])) {
+  //   return res.status(400).json({
+  //     error: 'Check Parameters',
+  //     code: 400,
+  //     message: '파라미터 값이 없습니다.'
+  //   });
+  // }
+
+  // const result = await post.upload({ userId, photos: newPhotos, content });
+  // if (result.error) {
+  //   return res.status(400).json(result);
+  // }
+  // console.log(result);
+  // return res.send(result);
 });
 
 module.exports = router;
