@@ -16,7 +16,14 @@ client.connect((err, client) => {
 
 const user = require('./user')(client);
 const post = require('./post')(client);
+const search = require('./search')(client);
+const friend = require('./friend')(client);
 // const list = require('./list')(client);
-// const friend = require('./friend')(client);
 
-module.exports = { client, user, post };
+module.exports = {
+  client,
+  user,
+  post,
+  search,
+  friend
+};

@@ -1,42 +1,41 @@
 const { isUndefined } = require('./../utils/validate');
 
 module.exports = client => {
-  const _insert = async data => {
-    if (isUndefined(data)) {
-      return { error: 'Check Parameters', code: 400 };
-    }
-
-    const { my_id, f_id } = data;
+  const _insert = async (user, friend) => {
     const query = {
       name: 'add-friend',
-      text: `INSERT INTO public."friend"(my_id, f_id) VALUES ($1, $2)`,
-      values: [my_id, f_id]
+      text: `INSERT INTO public."friend" (my_id, f_id) VALUES ($1, $2)`,
+      values: [user, friend]
     };
     try {
       await client.query(query);
-      return { result: 'success', message: '사용자 추가 완료' };
+      return { result: 'success', message: '팔로우 성공' };
     } catch (err) {
       return { error: err, code: 400 };
     }
   };
 
-  const _select = async data => {
-    if (isUndefined(data)) {
-      return { error: 'Check Parameters', code: 400 };
-    }
-    const { my_id } = data;
+  const _select = async (action, userId) => {
     const query = {
-      name: 'select-friend',
-      text: 'SELECT my_id, f_id FROM public."friend" WHERE my_id = $1',
-      values: [my_id]
+      name: action === 'follow' ? 'select-follow' : 'select-follower',
+      text:
+        action === 'follow'
+          ? 'SELECT f_id FROM public."friend" WHERE my_id = $1'
+          : 'SELECT my_id FROM public."friend" WHERE f_id = $1',
+      values: [userId]
     };
 
     try {
       const result = await client.query(query);
-      if (result.rows.length === 0) {
-        return { error: 'Not Found', code: 404 };
-      }
-      return { result: 'success', data: result.rows };
+      // if (result.rows.length === 0) {
+      //   return { error: 'Not Found', code: 404, message: '친구가 없어요 ㅠㅠ' };
+      // }
+      return {
+        result: 'success',
+        resultCode: 200,
+        resultData: result.rows,
+        count: result.rowCount
+      };
     } catch (err) {
       return { error: err, code: 400 };
     }
@@ -53,8 +52,8 @@ module.exports = client => {
   };
 
   return {
-    insert: data => _insert(data),
-    select: data => _select(data),
+    insert: (user, friend) => _insert(user, friend),
+    select: (action, userId) => _select(action, userId),
     update: data => _update(data),
     delete: data => _delete(data)
   };

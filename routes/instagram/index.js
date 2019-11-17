@@ -8,13 +8,15 @@ const path = require('path');
 // import routers
 const user = require('./user');
 const post = require('./post');
-// const friend = require('./friend');
+const search = require('./search');
+const follow = require('./follow');
 // const list = require('./list');
 
 // use routers
 router.use('/user', user);
 router.use('/post', post);
-// router.use('/friend', friend);
+router.use('/search', search);
+router.use('/follow', follow);
 // router.use('/list', list);
 
 router.get('/download/:filename', async (req, res) => {

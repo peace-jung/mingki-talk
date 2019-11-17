@@ -177,23 +177,107 @@ Return
 
 
 
-## 유저
+## 검색
 
-개발중
+뭔가 검색
 
-### 유저 검색
+#### GET /instagram/search?query=검색할내용
 
-#### GET /instagram/search/user (user = userId or name)
+(검색은 현재는 유저 아이디로만 검색을 하고있고, 추후 태그를 개발한다면 태그도 검색할 수 있을 예정)
+
+```
+예시>
+GET /instagram/search?query=김철수
+
+리턴>
+{
+    "count": 1, // 검색된 갯수
+    "resultData": {
+        "user": [
+            {
+                "id": "user1",
+                "name": "김철수",
+                "profile_img": null
+            }
+        ], // 유저일때는 id, name, profile_img 를 주겠음. 화면에서 이거면 되겠지?
+        "tag": [] // 아직 없음. 그냥 빈배열 줄거임
+    },
+    "resultCode": 200
+}
+```
 
 
 
-### 유저 팔로우
+## 팔로우
+
+### 팔로우/팔로워 조회
+
+#### GET /instagram/follow?query=[follow or follower]&userId=아이디
+
+```
+예시>
+GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회
+GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
+
+리턴>
+// 팔로우 조회 결과
+{
+    "result": "success",
+    "resultCode": 200,
+    "resultData": [
+        {
+            "f_id": "user2"
+        }
+    ],
+    "count": 1
+}
+// 팔로워 조회 결과
+{
+    "result": "success",
+    "resultCode": 200,
+    "resultData": [
+        {
+            "my_id": "user1"
+        }
+    ],
+    "count": 1
+}
+```
+
+
+
+### 팔로우 (내가 상대방을 팔로우)
+
+| Key    | Data Type | Desc.                |          |
+| :----- | :-------- | :------------------- | :------- |
+| user   | string    | 내 아이디            | Not Null |
+| friend | string    | 팔로우할 유저 아이디 | Not Null |
+
+
+
+### 팔로우
 
 #### POST /instagram/follow
 
+| Key    | Data Type | Desc.                |          |
+| :----- | :-------- | :------------------- | :------- |
+| user   | string    | 내 아이디            | Not Null |
+| friend | string    | 팔로우할 유저 아이디 | Not Null |
 
+```
+{
+    "result": "success",
+    "resultCode": 200,
+    "resultData": [
+        {
+            "f_id": "user2"
+        }
+    ],
+    "count": 1
+}
+```
 
-
+### 
 
 ---
 

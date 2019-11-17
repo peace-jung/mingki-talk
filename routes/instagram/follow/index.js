@@ -3,7 +3,66 @@ const router = express.Router();
 const { isUndefined } = require('./../../../utils/validate');
 const { friend } = require('./../../../postgre');
 
+/**
+ * get follow list
+ * /instagram/follow
+ */
+router.get('/', async (req, res) => {
+  const query = req.query.query;
+  const userId = req.query.userId;
+
+  if (
+    isUndefined([query, userId]) &&
+    (query === 'follow' || query === 'follower')
+  ) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: '400'
+    });
+  }
+
+  const result = await friend.select(query, userId);
+
+  if (result.error) {
+    return res.status(400).json({
+      error: result.error,
+      code: result.code,
+      message: '망해써요'
+    });
+  }
+
+  return res.send(result);
+});
+
+/**
+ * add follow user
+ * /instagram/follow
+ */
 router.post('/', async (req, res) => {
+  const user = req.body.user;
+  const follow = req.body.friend;
+
+  if (isUndefined([user, follow])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: '400'
+    });
+  }
+
+  const result = await friend.insert(user, follow);
+
+  if (result.error) {
+    return res.status(400).json({
+      error: result.error,
+      code: result.code,
+      message: '망해써요'
+    });
+  }
+
+  return res.send(result);
+});
+
+router.post('/asdfadf', async (req, res) => {
   const method = req.body.method; // [SELECT, INSERT, DELETE, UPDATE]
   const service = req.body.service; // []
 
