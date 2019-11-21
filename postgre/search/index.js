@@ -10,8 +10,9 @@ module.exports = client => {
       name: 'search-user',
       text: `SELECT id, name, profile_img
         FROM public."user"
-        WHERE name LIKE '%${name}%'
-        OR id LIKE '%${name}%'`
+        WHERE (name LIKE $1)
+        OR (id LIKE $1)`,
+      values: [`%${name}%`]
     };
 
     try {
