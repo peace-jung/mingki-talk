@@ -179,11 +179,40 @@ Return
 
 ## 검색
 
-뭔가 검색
+### 유저 ID 로 유저 정보 가져오기
+
+#### GET /instagram/user/detail?userId=아이디
+
+요청한 유저 ID 가 100% 일치해야 정보를 준다. (유사 단서 X)
+
+```
+예시>
+GET /instagram/user/detail?userId=peace
+
+리턴>
+{
+    "result": "success",
+    "resultCode": 200,
+    "data": [
+        {
+            "id": "admin",
+            "name": "admin",
+            "phone": null,
+            "profile_img": null,
+            "title": "Im Admin",
+            "birthday": null
+        }
+    ]
+}
+```
+
+
+
+### 유저 ID 또는 이름으로 검색 (유사 단어 포함)
 
 #### GET /instagram/search?query=검색할내용
 
-(검색은 현재는 유저 아이디로만 검색을 하고있고, 추후 태그를 개발한다면 태그도 검색할 수 있을 예정)
+(검색은 현재는 유저 아이디/이름으로만 검색을 하고있고, 추후 태그를 개발한다면 태그도 검색할 수 있을 예정)
 
 ```
 예시>
@@ -216,8 +245,8 @@ GET /instagram/search?query=김철수
 
 ```
 예시>
-GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회
-GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
+GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회 (내가 상대방을 팔로우)
+GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 팔로우하는 사람이 팔로워)
 
 리턴>
 // 팔로우 조회 결과
@@ -226,7 +255,7 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
     "resultCode": 200,
     "resultData": [
         {
-            "f_id": "user2"
+            "follow": "user2"
         }
     ],
     "count": 1
@@ -237,7 +266,7 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
     "resultCode": 200,
     "resultData": [
         {
-            "my_id": "user1"
+            "follower": "user1"
         }
     ],
     "count": 1
@@ -247,15 +276,6 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
 
 
 ### 팔로우 (내가 상대방을 팔로우)
-
-| Key    | Data Type | Desc.                |          |
-| :----- | :-------- | :------------------- | :------- |
-| user   | string    | 내 아이디            | Not Null |
-| friend | string    | 팔로우할 유저 아이디 | Not Null |
-
-
-
-### 팔로우
 
 #### POST /instagram/follow
 
@@ -270,7 +290,7 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회
     "resultCode": 200,
     "resultData": [
         {
-            "f_id": "user2"
+            "follow": "user2"
         }
     ],
     "count": 1

@@ -26,7 +26,7 @@ module.exports = client => {
   const checkUserExist = async userId => {
     const query = {
       name: 'userExist',
-      text: `SELECT (id, name, profile_img) FROM public."user" WHERE (id = $1)`,
+      text: `SELECT id, name, profile_img FROM public."user" WHERE (id = $1)`,
       values: [userId]
     };
 
@@ -48,13 +48,13 @@ module.exports = client => {
     const { userId, userPw } = data;
     const queryId = {
       name: 'user-id',
-      text: `SELECT (id, name) FROM public."user"
+      text: `SELECT id, name FROM public."user"
         WHERE (id = $1)`,
       values: [userId]
     };
     const queryInfo = {
       name: 'user-info',
-      text: `SELECT (id, name, phone, profile_img, title, birthday) FROM public."user"
+      text: `SELECT id, name, phone, profile_img, title, birthday FROM public."user"
         WHERE (id = $1 AND password = $2)`,
       values: [userId, userPw]
     };
@@ -123,10 +123,41 @@ module.exports = client => {
     }
   };
 
+  const searchUser = async userId => {
+    const query = {
+      name: 'search-one-user',
+      text: `SELECT id, name, phone, profile_img, title, birthday FROM public."user"
+        WHERE (id = $1)`,
+      values: [userId]
+    };
+
+    try {
+      const result = await client.query(query);
+
+      if (result.rows.length === 0)
+        return {
+          error: 'Not Found User',
+          code: 404,
+          message: '존재하지 않는 아이디'
+        };
+
+      return {
+        result: 'success',
+        resultCode: 200,
+        message: '사용자의 정보를 가져왔습니다.',
+        resultData: result.rows[0]
+      };
+    } catch (err) {
+      console.error('Search User ERROR', err);
+      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
+    }
+  };
+
   return {
     getAllUser: () => getAllUser(),
     checkUserExist: userid => checkUserExist(userid),
     login: data => login(data),
-    signup: data => signup(data)
+    signup: data => signup(data),
+    searchUser: userId => searchUser(userId)
   };
 };

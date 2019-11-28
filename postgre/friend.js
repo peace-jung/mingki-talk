@@ -4,7 +4,7 @@ module.exports = client => {
   const _insert = async (user, friend) => {
     const query = {
       name: 'add-friend',
-      text: `INSERT INTO public."friend" (my_id, f_id) VALUES ($1, $2)`,
+      text: `INSERT INTO public."friend" (follower, follow) VALUES ($1, $2)`,
       values: [user, friend]
     };
     try {
@@ -20,8 +20,8 @@ module.exports = client => {
       name: action === 'follow' ? 'select-follow' : 'select-follower',
       text:
         action === 'follow'
-          ? 'SELECT f_id FROM public."friend" WHERE my_id = $1'
-          : 'SELECT my_id FROM public."friend" WHERE f_id = $1',
+          ? 'SELECT follow FROM public."friend" WHERE follower = $1'
+          : 'SELECT follower FROM public."friend" WHERE follow = $1',
       values: [userId]
     };
 
@@ -46,9 +46,18 @@ module.exports = client => {
     return 'update';
   };
 
-  const _delete = async data => {
-    console.log('delete', data);
-    return 'delete';
+  const _delete = async (user, friend) => {
+    const query = {
+      name: 'delete-friend',
+      text: `DELETE FROM public."friend" WHERE follower = $1 AND follow = $2`,
+      values: [user, friend]
+    };
+    try {
+      await client.query(query);
+      return { result: 'success', message: '손절 성공' };
+    } catch (err) {
+      return { error: err, code: 400 };
+    }
   };
 
   return {
