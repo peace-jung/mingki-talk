@@ -127,16 +127,21 @@ module.exports = client => {
     }
   };
 
-  const searchUser = async userId => {
+  const searchUser = async (userId, myId) => {
     const query = {
       name: 'search-one-user',
-      text: `SELECT id, name, phone, profile_img, title, birthday FROM public."user"
-        WHERE (id = $1)`,
+      text: `SELECT id, name, phone, profile_img, title, birthday FROM public."user" WHERE (id = $1)`,
       values: [userId]
+    };
+    const query2 = {
+      name: 'is-follow',
+      text: `SELECT follow FROM public."friend" WHERE follower = $1 AND follow = $2`,
+      values: [userId, myId]
     };
 
     try {
       const result = await client.query(query);
+      const result2 = await client.query(query2);
 
       if (result.rows.length === 0)
         return {
@@ -149,13 +154,16 @@ module.exports = client => {
         result: 'success',
         resultCode: 200,
         message: '사용자의 정보를 가져왔습니다.',
-        resultData: result.rows[0]
+        resultData: {
+          ...result.rows[0],
+          follow: result2.rows.length !== 0
+        }
       };
     } catch (err) {
       console.error('Search User ERROR', err);
       return {
         error: err.detail,
-        code: 500,
+        code: err.code,
         message: '몰라 DB관리자한테 물어봐'
       };
     }
@@ -166,6 +174,6 @@ module.exports = client => {
     checkUserExist: userid => checkUserExist(userid),
     login: data => login(data),
     signup: data => signup(data),
-    searchUser: userId => searchUser(userId)
+    searchUser: (userId, myId) => searchUser(userId, myId)
   };
 };

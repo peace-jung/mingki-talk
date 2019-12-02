@@ -181,28 +181,30 @@ Return
 
 ### 유저 ID 로 유저 정보 가져오기
 
-#### GET /instagram/user/detail?userId=아이디
+#### GET /instagram/user/detail?userId=검색할아이디&myId=로그인된아이디
 
-요청한 유저 ID 가 100% 일치해야 정보를 준다. (유사 단서 X)
+요청한 유저 ID 가 100% 일치해야 정보를 준다. (유사 단어 X)
+
+로그인한 유저가 팔로우 중인지 유무도 보내준다.
 
 ```
 예시>
-GET /instagram/user/detail?userId=peace
+GET /instagram/user/detail?userId=a&myId=user2
 
 리턴>
 {
     "result": "success",
     "resultCode": 200,
-    "data": [
-        {
-            "id": "admin",
-            "name": "admin",
-            "phone": null,
-            "profile_img": null,
-            "title": "Im Admin",
-            "birthday": null
-        }
-    ]
+    "message": "사용자의 정보를 가져왔습니다.",
+    "resultData": {
+        "id": "a",
+        "name": "c",
+        "phone": null,
+        "profile_img": null,
+        "title": null,
+        "birthday": null,
+        "follow": true
+    }
 }
 ```
 

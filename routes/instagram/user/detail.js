@@ -11,8 +11,9 @@ const { user } = require('./../../../postgre');
  */
 router.get('/', async (req, res) => {
   const userId = req.query.userId;
+  const myId = req.query.myId;
 
-  if (isUndefined([userId])) {
+  if (isUndefined([userId, myId])) {
     return res.status(400).json({
       error: 'Check Parameters',
       code: 400,
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
     });
   }
 
-  const result = await user.account.searchUser(userId);
+  const result = await user.account.searchUser(userId, myId);
   if (result.error) {
     return res.status(400).json(result);
   }
