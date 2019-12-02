@@ -116,10 +116,14 @@ module.exports = client => {
       };
     } catch (err) {
       console.error('Sign Up ERROR', err);
-      if (String(result.error) === '23505')
+      if (String(err.code) === '23505')
         return { error: 'Unique ID', code: 409, message: '아이디 중복' };
       else
-        return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
+        return {
+          error: err.detail,
+          code: 500,
+          message: '몰라 DB관리자한테 물어봐'
+        };
     }
   };
 
@@ -149,7 +153,11 @@ module.exports = client => {
       };
     } catch (err) {
       console.error('Search User ERROR', err);
-      return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
+      return {
+        error: err.detail,
+        code: 500,
+        message: '몰라 DB관리자한테 물어봐'
+      };
     }
   };
 

@@ -1,5 +1,3 @@
-const { isUndefined } = require('./../utils/validate');
-
 module.exports = client => {
   const _insert = async (user, friend) => {
     const query = {
@@ -11,7 +9,9 @@ module.exports = client => {
       await client.query(query);
       return { result: 'success', message: '팔로우 성공' };
     } catch (err) {
-      return { error: err, code: 400 };
+      if (String(err.code) === '23505')
+        return { error: err.detail, message: '이미 팔로우 중 입니다.' };
+      else return { error: err.detail, message: error.code };
     }
   };
 
@@ -20,8 +20,8 @@ module.exports = client => {
       name: action === 'follow' ? 'select-follow' : 'select-follower',
       text:
         action === 'follow'
-          ? 'SELECT follow FROM public."friend" WHERE follower = $1'
-          : 'SELECT follower FROM public."friend" WHERE follow = $1',
+          ? 'SELECT follow FROM public."friend" WHERE follower = $1' // 내가 상대방을 팔로우
+          : 'SELECT follower FROM public."friend" WHERE follow = $1', // 나를 팔로우하는 상대방
       values: [userId]
     };
 
@@ -37,7 +37,7 @@ module.exports = client => {
         count: result.rowCount
       };
     } catch (err) {
-      return { error: err, code: 400 };
+      return { error: err, code: err.code };
     }
   };
 
@@ -56,14 +56,14 @@ module.exports = client => {
       await client.query(query);
       return { result: 'success', message: '손절 성공' };
     } catch (err) {
-      return { error: err, code: 400 };
+      return { error: err.detail, code: err.code };
     }
   };
 
   return {
     insert: (user, friend) => _insert(user, friend),
     select: (action, userId) => _select(action, userId),
-    update: data => _update(data),
-    delete: data => _delete(data)
+    update: (user, friend) => _update(user, friend),
+    delete: (user, friend) => _delete(user, friend)
   };
 };

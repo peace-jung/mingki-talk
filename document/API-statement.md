@@ -245,8 +245,8 @@ GET /instagram/search?query=김철수
 
 ```
 예시>
-GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회 (내가 상대방을 팔로우)
-GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 팔로우하는 사람이 팔로워)
+GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회 (내가 상대방을 팔로우, user1이 팔로우하는 사람 조회)
+GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 팔로우하는 사람이 팔로워, user2를 팔로우 하는 사람 조회)
 
 리턴>
 // 팔로우 조회 결과
@@ -297,7 +297,25 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 �
 }
 ```
 
-### 
+
+
+###팔로우 취소 (내가 상대방을 팔로우 취소)
+
+#### POST /instagram/follow/remove
+
+| Key    | Data Type | Desc.                |          |
+| :----- | :-------- | :------------------- | :------- |
+| user   | string    | 내 아이디            | Not Null |
+| friend | string    | 팔로우할 유저 아이디 | Not Null |
+
+```
+{
+    "result": "success",
+    "message": "success message"
+}
+```
+
+###  
 
 ---
 

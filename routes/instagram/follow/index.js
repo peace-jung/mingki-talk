@@ -26,7 +26,6 @@ router.get('/', async (req, res) => {
   if (result.error) {
     return res.status(400).json({
       error: result.error,
-      code: result.code,
       message: '망해써요'
     });
   }
@@ -54,8 +53,34 @@ router.post('/', async (req, res) => {
   if (result.error) {
     return res.status(400).json({
       error: result.error,
-      code: result.code,
-      message: '망해써요'
+      message: result.message
+    });
+  }
+
+  return res.send(result);
+});
+
+/**
+ * remove follow user
+ * /instagram/follow
+ */
+router.post('/remove', async (req, res) => {
+  const user = req.body.user;
+  const follow = req.body.friend;
+
+  if (isUndefined([user, follow])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: '400'
+    });
+  }
+
+  const result = await friend.delete(user, follow);
+
+  if (result.error) {
+    return res.status(400).json({
+      error: result.error,
+      message: result.message
     });
   }
 
