@@ -2,7 +2,7 @@ module.exports = client => {
   const _insert = async (user, friend) => {
     const query = {
       name: 'add-friend',
-      text: `INSERT INTO public."friend" (follower, follow) VALUES ($1, $2)`,
+      text: `INSERT INTO public."friend" (follower, following) VALUES ($1, $2)`,
       values: [user, friend]
     };
     try {
@@ -17,11 +17,11 @@ module.exports = client => {
 
   const _select = async (action, userId) => {
     const query = {
-      name: action === 'follow' ? 'select-follow' : 'select-follower',
+      name: action === 'following' ? 'select-following' : 'select-follower',
       text:
-        action === 'follow'
-          ? 'SELECT follow FROM public."friend" WHERE follower = $1' // 내가 상대방을 팔로우
-          : 'SELECT follower FROM public."friend" WHERE follow = $1', // 나를 팔로우하는 상대방
+        action === 'following'
+          ? 'SELECT following FROM public."friend" WHERE follower = $1' // 내가 상대방을 팔로우
+          : 'SELECT follower FROM public."friend" WHERE following = $1', // 나를 팔로우하는 상대방
       values: [userId]
     };
 
@@ -49,7 +49,7 @@ module.exports = client => {
   const _delete = async (user, friend) => {
     const query = {
       name: 'delete-friend',
-      text: `DELETE FROM public."friend" WHERE follower = $1 AND follow = $2`,
+      text: `DELETE FROM public."friend" WHERE follower = $1 AND following = $2`,
       values: [user, friend]
     };
     try {

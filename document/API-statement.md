@@ -189,7 +189,7 @@ Return
 
 ```
 예시>
-GET /instagram/user/detail?userId=a&myId=user2
+GET /instagram/user/detail?userId=user2&myId=user1
 
 리턴>
 {
@@ -197,13 +197,15 @@ GET /instagram/user/detail?userId=a&myId=user2
     "resultCode": 200,
     "message": "사용자의 정보를 가져왔습니다.",
     "resultData": {
-        "id": "a",
-        "name": "c",
+        "id": "user2",
+        "name": "김창수",
         "phone": null,
         "profile_img": null,
         "title": null,
         "birthday": null,
-        "follow": true
+        "following": true, // user1 이 user2 를 팔로우 했는지
+        "followingCount": "0", // user2 의 팔로잉 수
+        "followerCount": "2" // user2 의 팔로워 수
     }
 }
 ```
@@ -243,11 +245,11 @@ GET /instagram/search?query=김철수
 
 ### 팔로우/팔로워 조회
 
-#### GET /instagram/follow?query=[follow or follower]&userId=아이디
+#### GET /instagram/follow?query=[following or follower]&userId=아이디
 
 ```
 예시>
-GET /instagram/follow?query=follow&userId=user1 // 팔로우 조회 (내가 상대방을 팔로우, user1이 팔로우하는 사람 조회)
+GET /instagram/follow?query=following&userId=user1 // 팔로우 조회 (내가 상대방을 팔로우, user1이 팔로우하는 사람 조회)
 GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 팔로우하는 사람이 팔로워, user2를 팔로우 하는 사람 조회)
 
 리턴>
@@ -257,7 +259,7 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 �
     "resultCode": 200,
     "resultData": [
         {
-            "follow": "user2"
+            "following": "user2"
         }
     ],
     "count": 1

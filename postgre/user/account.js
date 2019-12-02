@@ -135,13 +135,25 @@ module.exports = client => {
     };
     const query2 = {
       name: 'is-follow',
-      text: `SELECT follow FROM public."friend" WHERE follower = $1 AND follow = $2`,
+      text: `SELECT following FROM public."friend" WHERE following = $1 AND follower = $2`,
       values: [userId, myId]
+    };
+    const query3 = {
+      name: 'following-count',
+      text: `SELECT COUNT(following) AS followingcount FROM public."friend" WHERE follower = $1`,
+      values: [userId]
+    };
+    const query4 = {
+      name: 'follower-count',
+      text: `SELECT COUNT(follower) AS followercount FROM public."friend" WHERE following = $1`,
+      values: [userId]
     };
 
     try {
       const result = await client.query(query);
       const result2 = await client.query(query2);
+      const result3 = await client.query(query3);
+      const result4 = await client.query(query4);
 
       if (result.rows.length === 0)
         return {
@@ -156,7 +168,9 @@ module.exports = client => {
         message: '사용자의 정보를 가져왔습니다.',
         resultData: {
           ...result.rows[0],
-          follow: result2.rows.length !== 0
+          following: result2.rows.length !== 0,
+          followingCount: result3.rows[0].followingcount,
+          followerCount: result4.rows[0].followercount
         }
       };
     } catch (err) {
