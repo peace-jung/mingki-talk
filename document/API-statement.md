@@ -79,6 +79,73 @@ Return
 
 ## 게시글
 
+### 메인 화면에 보여줄 게시글 가져오기 (페이징 아직 안됨)
+
+#### GET /instagram/post/main?userId=아이디
+
+```
+{
+    "result": "success",
+    "resultCode": 200,
+    "resultData": [
+        {
+            "created": "1573228968559",
+            "id": "a",
+            "content": "shshshhs",
+            "photos": [
+                {
+                    "fieldname": "file",
+                    "originalname": "1572880795090.jpg",
+                    "mimetype": "multipart/form-data",
+                    "filename": "4ffaa280a8267f94930c1f9519a09805",
+                    "size": 10636
+                }
+            ],
+            "like": [
+                "mink"
+            ],
+            "comment": null
+        },
+        {
+            "created": "1573136243158",
+            "id": "a",
+            "content": "fudurrjd",
+            "photos": [
+                {
+                    "fieldname": "file",
+                    "originalname": "instargram_20191020_164859.jpg",
+                    "mimetype": "multipart/form-data",
+                    "filename": "177be2b58504d6ab413159e5595fe84a",
+                    "size": 3417444
+                }
+            ],
+            "like": null,
+            "comment": null
+        },
+        {
+            "created": "1573136197136",
+            "id": "a",
+            "content": "fjfjjdd",
+            "photos": [
+                {
+                    "fieldname": "file",
+                    "originalname": "1572880795090.jpg",
+                    "mimetype": "multipart/form-data",
+                    "filename": "5dcc676b470316b9181d4221a9f6875d",
+                    "size": 10636
+                }
+            ],
+            "like": null,
+            "comment": null
+        }
+    ]
+}
+```
+
+
+
+
+
 ### 특정 유저의 게시글 가져오기
 
 #### GET /instagram/post/userId (userId는 알아서 가변적으로 쓰세용)
@@ -319,7 +386,36 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 �
 }
 ```
 
-###  
+
+
+## 좋아요
+
+### 좋아요 하기/취소하기
+
+#### POST /instagram/post/like
+
+| Key           | Data Type | Desc.                  |          |
+| :------------ | :-------- | :--------------------- | :------- |
+| userId        | string    | 내 아이디              | Not Null |
+| contentUserID | string    | 게시글의 userId        | Not Null |
+| contentDataId | string    | 게시글의 created       | Not Null |
+| like          | boolean   | 추가할지 취소할지 여부 | Not Null |
+
+```
+{
+    result: 'success',
+    resultCode: 200,
+    messgae: '처리되었습니다.'
+}
+
+{
+    "error": "already like",
+    "code": 401,
+    "message": "이미 좋아요 했음"
+}
+```
+
+
 
 ---
 

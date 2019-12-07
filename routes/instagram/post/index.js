@@ -12,6 +12,95 @@ const { user, post } = require('./../../../postgre');
 
 // SECTION /instagram/post
 
+// 글쓰기
+router.post('/', upload.array('file', 5), async (req, res) => {
+  const userId = req.body.userId;
+  const content = req.body.content;
+  const photos = req.files;
+
+  console.log('photos', photos);
+
+  const newPhotos = photos.map(p => {
+    return {
+      fieldname: p.fieldname,
+      originalname: p.originalname,
+      mimetype: p.mimetype,
+      filename: p.filename,
+      fullPath: p.fullPath,
+      size: p.size
+    };
+  });
+  console.log('newPhotos', newPhotos);
+
+  console.log('Upload Post', userId, newPhotos, content);
+
+  if (isUndefined([userId, newPhotos, content])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: 400,
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+
+  const result = await post.upload({ userId, photos: newPhotos, content });
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  console.log(result);
+  return res.send(result);
+});
+
+// 좋아요
+router.post('/like', async (req, res) => {
+  const userId = req.body.userId; // user id
+  const contentUserID = req.body.contentUserID; // content id
+  const contentDataId = req.body.contentDataId; // content id
+  const like = req.body.like; // true, false
+
+  if (
+    typeof like !== 'boolean' ||
+    isUndefined([userId, contentUserID, contentDataId, like])
+  ) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: 400,
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+
+  const result = await post.contentLike({
+    userId,
+    contentUserID,
+    contentDataId,
+    like
+  });
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  console.warn('like', result);
+  return res.send(result);
+});
+
+// main
+router.get('/main', async (req, res) => {
+  const userId = req.query.userId; // user id
+
+  if (isUndefined([userId])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: 400,
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+
+  const result = await post.allPost(userId);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  console.warn('allPost', result);
+  return res.send(result);
+});
+
 // 유저 1명의 게시글 리스트 가져오기
 router.get('/:userId', async (req, res) => {
   // const userId = req.query.id;
@@ -83,44 +172,6 @@ router.get('/:userId/:postId', async (req, res) => {
   const result = await post.get({ userId, postId });
 
   // TODO Image List 를 찾아서 줘야함
-  if (result.error) {
-    return res.status(400).json(result);
-  }
-  console.log(result);
-  return res.send(result);
-});
-
-// 글쓰기
-router.post('/', upload.array('file', 5), async (req, res) => {
-  const userId = req.body.userId;
-  const content = req.body.content;
-  const photos = req.files;
-
-  console.log('photos', photos)
-  
-  const newPhotos = photos.map(p => {
-    return {
-      fieldname: p.fieldname,
-      originalname: p.originalname,
-      mimetype: p.mimetype,
-      filename: p.filename,
-      fullPath: p.fullPath,
-      size: p.size
-    };
-  });
-  console.log('newPhotos', newPhotos)
-
-  console.log('Upload Post', userId, newPhotos, content);
-
-  if (isUndefined([userId, newPhotos, content])) {
-    return res.status(400).json({
-      error: 'Check Parameters',
-      code: 400,
-      message: '파라미터 값이 없습니다.'
-    });
-  }
-
-  const result = await post.upload({ userId, photos: newPhotos, content });
   if (result.error) {
     return res.status(400).json(result);
   }

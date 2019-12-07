@@ -48,6 +48,12 @@ router.post('/', async (req, res) => {
     });
   }
 
+  if (user === follow)
+    return res.status(400).json({
+      error: 'Oops!',
+      message: '자기자신은 팔로우 할 수 없어 임마!'
+    });
+
   const result = await friend.insert(user, follow);
 
   if (result.error) {
