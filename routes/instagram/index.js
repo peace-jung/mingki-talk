@@ -8,6 +8,7 @@ const path = require('path');
 // import routers
 const user = require('./user');
 const post = require('./post');
+const comment = require('./comment');
 const search = require('./search');
 const follow = require('./follow');
 // const list = require('./list');
@@ -15,6 +16,7 @@ const follow = require('./follow');
 // use routers
 router.use('/user', user);
 router.use('/post', post);
+router.use('/comment', comment);
 router.use('/search', search);
 router.use('/follow', follow);
 // router.use('/list', list);
