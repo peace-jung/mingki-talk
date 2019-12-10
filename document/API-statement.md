@@ -104,7 +104,9 @@ Return
             "like": [
                 "mink"
             ],
-            "comment": null
+            "comment": [],
+            "likecount": 1,
+            "commentcount": 0
         },
         {
             "created": "1573136243158",
@@ -119,8 +121,10 @@ Return
                     "size": 3417444
                 }
             ],
-            "like": null,
-            "comment": null
+            "like": [],
+            "comment": [],
+            "likecount": 0,
+            "commentcount": 0
         },
         {
             "created": "1573136197136",
@@ -135,8 +139,10 @@ Return
                     "size": 10636
                 }
             ],
-            "like": null,
-            "comment": null
+            "like": [],
+            "comment": [],
+            "likecount": 1,
+            "commentcount": 0
         }
     ]
 }
@@ -166,7 +172,11 @@ Return
 			"photo": [
 				"test1", // 여기는 image url 을 줄 예정
 				"test2"
-			]
+			],
+      "like": [],
+      "comment": [],
+      "likecount": 0,
+      "commentcount": 0
 		}
 	]
 }
@@ -202,7 +212,11 @@ Return
 			"photo": [
 				"test1", // 여기는 image url 을 줄 예정
 				"test2"
-			]
+			],
+      "like": [],
+      "comment": [],
+      "likecount": 0,
+      "commentcount": 0
 		}
 	]
 }

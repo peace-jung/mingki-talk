@@ -7,7 +7,7 @@ module.exports = client => {
       name: postId ? 'get-post' : 'get-posts',
       text:
         `SELECT
-          created, id, content, photos, like, comment,
+          created, id, content, photos, "like", comment,
           cardinality(comment) AS commentcount, cardinality("like") AS likecount
         FROM public.post
         WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
@@ -31,7 +31,7 @@ module.exports = client => {
     const query = {
       name: 'insert-post',
       text: `INSERT INTO public."post"(
-        id, photos, content, created, like, comment)
+        id, photos, content, created, "like", comment)
         VALUES ($1, $2, $3, $4, $5, $6)`,
       values: [userId, photos, content, created, [], []]
     };
