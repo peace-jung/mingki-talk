@@ -6,7 +6,10 @@ module.exports = client => {
     const query = {
       name: postId ? 'get-post' : 'get-posts',
       text:
-        `SELECT created, id, content, photos FROM public.post
+        `SELECT
+          created, id, content, photos, like, comment,
+          cardinality(comment) AS commentcount, cardinality("like") AS likecount
+        FROM public.post
         WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
       values: postId ? [userId, postId] : [userId]
     };
@@ -28,9 +31,9 @@ module.exports = client => {
     const query = {
       name: 'insert-post',
       text: `INSERT INTO public."post"(
-        id, photos, content, created)
-        VALUES ($1, $2, $3, $4)`,
-      values: [userId, photos, content, created]
+        id, photos, content, created, like, comment)
+        VALUES ($1, $2, $3, $4, $5, $6)`,
+      values: [userId, photos, content, created, [], []]
     };
 
     try {
@@ -137,7 +140,9 @@ module.exports = client => {
   const _allPost = async userId => {
     const query = {
       name: 'all-post-for-main',
-      text: `SELECT A.created, A.id, A.content, A.photos, A.like, A.comment
+      text: `SELECT
+          A.created, A.id, A.content, A.photos, A.like, A.comment,
+          cardinality(A.comment) AS commentcount, cardinality(A.like) AS likecount
         FROM public.post AS A
         JOIN
         (SELECT following FROM public."friend"
@@ -157,7 +162,7 @@ module.exports = client => {
     } catch (err) {
       if (String(err.code) === '23503')
         return { error: 'Not Found User', code: 404, message: '없는 유저' };
-      console.error('Upload Post ERROR', err);
+      console.error('Get All Post ERROR', err);
       return { error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' };
     }
   };
