@@ -170,8 +170,13 @@ Return
 			"id": "mink",
 			"content": "밍크으으으ㅡ으으응",
 			"photo": [
-				"test1", // 여기는 image url 을 줄 예정
-				"test2"
+				{
+          "fieldname": "file",
+          "originalname": "btnDrawAlertNone.png",
+          "mimetype": "image/png",
+          "filename": "822d4e458b8fa0dab99da3673138abef",
+          "size": 903
+        }
 			]
 		}
 	]
@@ -206,8 +211,13 @@ Return
 			"id": "mink",
 			"content": "밍크으으으ㅡ으으응",
 			"photo": [
-				"test1", // 여기는 image url 을 줄 예정
-				"test2"
+				{
+          "fieldname": "file",
+          "originalname": "btnDrawAlertNone.png",
+          "mimetype": "image/png",
+          "filename": "822d4e458b8fa0dab99da3673138abef",
+          "size": 903
+        }
 			],
       "like": [],
       "comment": [],
