@@ -7,8 +7,12 @@ module.exports = client => {
       name: postId ? 'get-post' : 'get-posts',
       text:
         `SELECT
-          created, id, content, photos, "like", comment,
-          cardinality(comment) AS commentcount, cardinality("like") AS likecount
+          created, id, content, photos
+          ${
+            postId
+              ? ', "like", comment, cardinality(comment) AS commentcount, cardinality("like") AS likecount'
+              : ''
+          }
         FROM public.post
         WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
       values: postId ? [userId, postId] : [userId]

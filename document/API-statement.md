@@ -172,11 +172,7 @@ Return
 			"photo": [
 				"test1", // 여기는 image url 을 줄 예정
 				"test2"
-			],
-      "like": [],
-      "comment": [],
-      "likecount": 0,
-      "commentcount": 0
+			]
 		}
 	]
 }
