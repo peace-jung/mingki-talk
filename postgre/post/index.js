@@ -2,20 +2,22 @@ module.exports = client => {
   const _get = async data => {
     const userId = data.userId;
     const postId = data.postId;
+    const loginId = data.loginId;
 
     const query = {
       name: postId ? 'get-post' : 'get-posts',
       text:
         `SELECT
-          created, id, content, photos
+          created, id, content, photos,
+          (SELECT COUNT("like") FROM public.post WHERE $1 = ANY("like")) AS isLike
           ${
             postId
               ? ', "like", comment, cardinality(comment) AS commentcount, cardinality("like") AS likecount'
               : ''
           }
         FROM public.post
-        WHERE (id = $1)` + (postId ? ` AND (created = $2)` : ``),
-      values: postId ? [userId, postId] : [userId]
+        WHERE (id = $2)` + (postId ? ` AND (created = $3)` : ``),
+      values: postId ? [loginId, userId, postId] : [loginId, userId]
     };
 
     try {

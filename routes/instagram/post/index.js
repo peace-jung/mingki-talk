@@ -105,6 +105,7 @@ router.get('/main', async (req, res) => {
 router.get('/:userId', async (req, res) => {
   // const userId = req.query.id;
   const userId = req.params.userId;
+  const loginId = req.query.loginId;
 
   console.log('Get User Post List', userId);
 
@@ -130,7 +131,7 @@ router.get('/:userId', async (req, res) => {
   }
 
   // NOTE 유저 post 조회
-  const result = await post.get({ userId });
+  const result = await post.get({ userId, loginId });
 
   // TODO Image List 를 찾아서 줘야함
   if (result.error) {
@@ -144,6 +145,7 @@ router.get('/:userId', async (req, res) => {
 router.get('/:userId/:postId', async (req, res) => {
   const userId = req.params.userId;
   const postId = req.params.postId;
+  const loginId = req.query.loginId;
 
   console.log('Get One Post', userId, postId);
 
@@ -169,7 +171,7 @@ router.get('/:userId/:postId', async (req, res) => {
   }
 
   // NOTE 유저 post 조회
-  const result = await post.get({ userId, postId });
+  const result = await post.get({ userId, postId, loginId });
 
   // TODO Image List 를 찾아서 줘야함
   if (result.error) {

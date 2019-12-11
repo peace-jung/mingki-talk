@@ -154,52 +154,12 @@ Return
 
 ### 특정 유저의 게시글 가져오기
 
-#### GET /instagram/post/userId (userId는 알아서 가변적으로 쓰세용)
+#### GET /instagram/post/userId?loginId=내아이디 (중간에 userId는 알아서 가변적으로 쓰세용)
 
-| Key    | Value  | Desc.              |
-| :----- | :----- | :----------------- |
-| userId | userId | 조회할 유저 아이디 |
-
-```
-{
-	result: "success",
-	resultCode: 200,
-	data: [
-		{
-			"created": "1571581652117",
-			"id": "mink",
-			"content": "밍크으으으ㅡ으으응",
-			"photo": [
-				{
-          "fieldname": "file",
-          "originalname": "btnDrawAlertNone.png",
-          "mimetype": "image/png",
-          "filename": "822d4e458b8fa0dab99da3673138abef",
-          "size": 903
-        }
-			]
-		}
-	]
-}
-```
-
-| Code | 원인               |
-| ---- | ------------------ |
-| 200  | 성공               |
-| 400  | 파라미터 확인 필요 |
-| 404  | 없는 유저          |
-| 500  | 서버 문제          |
-
-
-
-### 특정 유저의, 특정 게시글 가져오기
-
-#### GET /instagram/post/userId/postId (postId도 알아서 가변적으로 쓰세용)
-
-| Key    | Value   | Desc.                                       |
-| :----- | :------ | :------------------------------------------ |
-| userId | userId  | 조회할 유저 아이디                          |
-| postId | created | 게시글 아이디 (게시글 등록일자의 timestamp) |
+| Key     | Value  | Desc.              |
+| :------ | :----- | :----------------- |
+| userId  | userId | 조회할 유저 아이디 |
+| loginId |        | 로그인한 아이디    |
 
 ```
 {
@@ -219,6 +179,50 @@ Return
           "size": 903
         }
 			],
+			"isLike": "0" // 좋아요 안했으면 "0", 했으면 "1" (아마 1일거야)
+		}
+	]
+}
+```
+
+| Code | 원인               |
+| ---- | ------------------ |
+| 200  | 성공               |
+| 400  | 파라미터 확인 필요 |
+| 404  | 없는 유저          |
+| 500  | 서버 문제          |
+
+
+
+### 특정 유저의, 특정 게시글 가져오기
+
+#### GET /instagram/post/userId/postId?loginId=user (중간에 userId, postId는 알아서 가변적으로 쓰세용)
+
+| Key     | Value   | Desc.                                       |
+| :------ | :------ | :------------------------------------------ |
+| userId  | userId  | 조회할 유저 아이디                          |
+| postId  | created | 게시글 아이디 (게시글 등록일자의 timestamp) |
+| loginId |         | 로그인한 아이디                             |
+
+```
+{
+	result: "success",
+	resultCode: 200,
+	data: [
+		{
+			"created": "1571581652117",
+			"id": "mink",
+			"content": "밍크으으으ㅡ으으응",
+			"photo": [
+				{
+          "fieldname": "file",
+          "originalname": "btnDrawAlertNone.png",
+          "mimetype": "image/png",
+          "filename": "822d4e458b8fa0dab99da3673138abef",
+          "size": 903
+        }
+			],
+			"isLike": "0", // 좋아요 안했으면 "0", 했으면 "1" (아마 1일거야)
       "like": [],
       "comment": [],
       "likecount": 0,
@@ -241,11 +245,11 @@ Return
 
 #### POST /instagram/post
 
-| Key     | Data Type | Desc.                                                |          |
-| :------ | :-------- | :--------------------------------------------------- | :------- |
-| userId  | string    |                                                      | Not Null |
-| photo   | string[]  | 이거 바꿔야함. 일단 테스트로 문자열 배열로 보내세요. | Not Null |
-| content | string    |                                                      | Not Null |
+| Key     | Data Type              | Desc. |          |
+| :------ | :--------------------- | :---- | :------- |
+| userId  | string                 |       | Not Null |
+| content | string                 |       | Not Null |
+| photo   | file (key) / multipart | max 5 | Not Null |
 
 ```
 {
