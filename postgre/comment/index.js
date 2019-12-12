@@ -1,6 +1,6 @@
 module.exports = client => {
   const _get = async data => {
-    const { ownerId, postCreated } = data;
+    const { owner, postId } = data;
 
     const query = {
       name: 'get-comments',
@@ -8,7 +8,7 @@ module.exports = client => {
         FROM public.comment
         WHERE owner = $1 AND "postId" = $2
         ORDER BY created DESC`,
-      values: [ownerId, postCreated]
+      values: [owner, postId]
     };
 
     try {
@@ -27,14 +27,14 @@ module.exports = client => {
   };
 
   const _add = async data => {
-    const { ownerId, postCreated, userId, content } = data;
+    const { owner, postId, userId, content } = data;
     const created = Date.now();
     const query = {
       name: 'insert-comment',
       text: `INSERT INTO public.comment(
         owner, "postId", "userId", content, created)
         VALUES ($1, $2, $3, $4, $5)`,
-      values: [ownerId, postCreated, userId, content, created]
+      values: [owner, postId, userId, content, created]
     };
 
     try {

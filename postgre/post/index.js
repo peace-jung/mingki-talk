@@ -151,8 +151,7 @@ module.exports = client => {
           cardinality(A.comment) AS commentcount, cardinality(A.like) AS likecount
         FROM public.post AS A
         JOIN
-        (SELECT following FROM public."friend"
-        WHERE follower = $1) AS B
+          (SELECT following FROM public."friend" WHERE follower = $1) AS B
         ON A.id = B.following
         ORDER BY A.created DESC`,
       values: [userId]

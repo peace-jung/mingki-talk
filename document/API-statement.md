@@ -162,6 +162,8 @@ Return
 | loginId |        | 로그인한 아이디    |
 
 ```
+http://localhost:3000/instagram/post/mink?loginId=user
+
 {
 	result: "success",
 	resultCode: 200,
@@ -205,6 +207,8 @@ Return
 | loginId |         | 로그인한 아이디                             |
 
 ```
+http://localhost:3000/instagram/post/mink/1572882156840?loginId=user
+
 {
 	result: "success",
 	resultCode: 200,
@@ -445,12 +449,12 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 �
 
 ### 댓글 조회하기
 
-#### GET /instagram/comment?ownerId=아이디&postCreated=340853095 (예시)
+#### GET /instagram/comment?owner=아이디&postId=340853095 (예시)
 
-| Key         | Data Type | Desc.             |          |
-| :---------- | :-------- | :---------------- | :------- |
-| ownerId     | string    | 게시글 쓴 유저 id | Not Null |
-| postCreated | bigint    | 게시글의 created  | Not Null |
+| Key    | Data Type | Desc.             |          |
+| :----- | :-------- | :---------------- | :------- |
+| owner  | string    | 게시글 쓴 유저 id | Not Null |
+| postId | bigint    | 게시글의 created  | Not Null |
 
 ```
 {
@@ -480,12 +484,12 @@ GET /instagram/follow?query=follower&userId=user2 // 팔로워 조회 (나를 �
 
 #### POST /instagram/comment/add
 
-| Key         | Data Type | Desc.                 |          |
-| :---------- | :-------- | :-------------------- | :------- |
-| ownerId     | string    | 게시글 쓴 유저 id     | Not Null |
-| postCreated | bigint    | 게시글의 created      | Not Null |
-| userId      | string    | 댓글 쓰는 유저 아이디 | Not Null |
-| content     | string    | 댓글 내용             | Not Null |
+| Key     | Data Type | Desc.                 |          |
+| :------ | :-------- | :-------------------- | :------- |
+| owner   | string    | 게시글 쓴 유저 id     | Not Null |
+| postId  | bigint    | 게시글의 created      | Not Null |
+| userId  | string    | 댓글 쓰는 유저 아이디 | Not Null |
+| content | string    | 댓글 내용             | Not Null |
 
 ```
 {
