@@ -8,7 +8,7 @@ const cors = require('cors');
 app.use(express.json());
 // cors
 let corsOptions = {
-  origin: ['https://mingstagram.netlify.com'],
+  origin: ['https://mingstagram.netlify.com', 'http://localhost:3000'],
   credentials: true
 };
 app.use(cors(corsOptions));
