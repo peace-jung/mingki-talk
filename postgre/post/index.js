@@ -159,10 +159,14 @@ module.exports = client => {
 
     try {
       const result = await client.query(query);
+      const data = result.rows.map(item => {
+        item.isLike = item.like.find(l => l === userId) ? true : false;
+        return item;
+      });
       return {
         result: 'success',
         resultCode: 200,
-        resultData: result.rows
+        resultData: data
       };
     } catch (err) {
       if (String(err.code) === '23503')
