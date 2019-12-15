@@ -106,7 +106,8 @@ Return
             ],
             "comment": [],
             "likecount": 1,
-            "commentcount": 0
+            "commentcount": 0,
+            "isLike": false
         },
         {
             "created": "1573136243158",
@@ -124,7 +125,8 @@ Return
             "like": [],
             "comment": [],
             "likecount": 0,
-            "commentcount": 0
+            "commentcount": 0,
+            "isLike": false
         },
         {
             "created": "1573136197136",
@@ -142,7 +144,8 @@ Return
             "like": [],
             "comment": [],
             "likecount": 1,
-            "commentcount": 0
+            "commentcount": 0,
+            "isLike": true
         }
     ]
 }
