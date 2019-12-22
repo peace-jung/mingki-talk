@@ -31,10 +31,14 @@ router.get('/download/:filename', async (req, res) => {
     });
   }
 
-  const file = await fs.readFileSync(
-    path.join(__dirname, '../../uploads/instagram') + '/' + filename,
-    'binary'
-  );
+  const originPath = path.join(__dirname, '../../uploads/instagram');
+  const file = await fs.readFileSync(originPath + '/' + filename, 'binary');
+
+  fs.readdir(originPath, function(error, filelist) {
+    console.log('=================');
+    console.log(filelist);
+    console.log('=================');
+  });
 
   res.setHeader('Content-type', 'image/png');
   res.write(file, 'binary');
