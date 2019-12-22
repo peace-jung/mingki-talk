@@ -77,6 +77,45 @@ Return
 
 
 
+### 비밀번호 수정 (19/12/22)
+
+#### PUT /instagram/user/profile/pw
+
+| Key          | Data Type | Desc. |          |
+| :----------- | :-------- | :---- | :------- |
+| userId       | string    |       | Not Null |
+| password     | string    |       | Not Null |
+| new_password | string    |       | Not Null |
+
+```
+{ result: 'success', message: '비밀번호가 수정되었습니다.' }
+
+{ error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' }
+```
+
+
+
+### 프로필 수정 (19/12/22)
+
+#### PUT /instagram/user/profile/info
+
+| Key         | Data Type | Desc.        |          |
+| :---------- | :-------- | :----------- | :------- |
+| userId      | string    |              | Not Null |
+| name        | string    |              | Not Null |
+| phone       | string    |              | Not Null |
+| profile_img | string    | filename     | Not Null |
+| title       | string    |              | Not Null |
+| birthday    | string    | ex) 19910101 | Not Null |
+
+```
+{ result: 'success', message: '프로필이 수정되었습니다.' }
+
+{ error: 'err', code: 500, message: '몰라 DB관리자한테 물어봐' }
+```
+
+
+
 ## 게시글
 
 ### 메인 화면에 보여줄 게시글 가져오기 (페이징 아직 안됨)
