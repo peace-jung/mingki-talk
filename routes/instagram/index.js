@@ -31,18 +31,31 @@ router.get('/download/:filename', async (req, res) => {
     });
   }
 
-  const originPath = path.join(__dirname, '../../uploads/instagram');
-  const file = await fs.readFileSync(originPath + '/' + filename, 'binary');
+  try {
+    const originPath = path.join(__dirname, '../../uploads/instagram');
 
-  fs.readdir(originPath, function(error, filelist) {
-    console.log('=================');
-    console.log(filelist);
-    console.log('=================');
-  });
+    fs.readdir(originPath, function(error, filelist) {
+      const hasFile = filelist.find(file => file === filename);
+      if (!hasFile)
+        return res.status(400).json({
+          error: 'Undefined File',
+          code: 404,
+          message: '파일이 존재하지 않습니다.'
+        });
+    });
 
-  res.setHeader('Content-type', 'image/png');
-  res.write(file, 'binary');
-  res.end();
+    const file = fs.readFileSync(originPath + '/' + filename, 'binary');
+
+    res.setHeader('Content-type', 'image/png');
+    res.write(file, 'binary');
+    res.end();
+  } catch (error) {
+    return res.status(400).json({
+      error: 'Undefined File',
+      code: 404,
+      message: '서버에 문제가 발생했다.'
+    });
+  }
 });
 
 module.exports = router;

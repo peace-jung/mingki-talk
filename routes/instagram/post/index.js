@@ -30,9 +30,9 @@ router.post('/', upload.array('file', 5), async (req, res) => {
       size: p.size
     };
   });
-  console.log('newPhotos', newPhotos);
+  // console.log('newPhotos', newPhotos);
 
-  console.log('Upload Post', userId, newPhotos, content);
+  // console.log('Upload Post', userId, newPhotos, content);
 
   if (isUndefined([userId, newPhotos, content])) {
     return res.status(400).json({
