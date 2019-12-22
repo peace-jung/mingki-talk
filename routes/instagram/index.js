@@ -33,17 +33,6 @@ router.get('/download/:filename', async (req, res) => {
 
   try {
     const originPath = path.join(__dirname, '../../uploads/instagram');
-
-    fs.readdir(originPath, function(error, filelist) {
-      const hasFile = filelist.find(file => file === filename);
-      if (!hasFile)
-        return res.status(400).json({
-          error: 'Undefined File',
-          code: 404,
-          message: '파일이 존재하지 않습니다.'
-        });
-    });
-
     const file = fs.readFileSync(originPath + '/' + filename, 'binary');
 
     res.setHeader('Content-type', 'image/png');
