@@ -314,6 +314,57 @@ http://localhost:3000/instagram/post/mink/1572882156840?loginId=user
 
 
 
+### 게시글 수정 (19/12/22)
+
+#### PUT /instagram/post
+
+| Key     | Data Type | Desc.      |          |
+| :------ | :-------- | :--------- | :------- |
+| userId  | string    |            | Not Null |
+| postId  | string    | 글 created | Not Null |
+| content | string    |            | Not Null |
+
+```
+{
+	result: 'success',
+	resultCode: 200,
+	message: '데이터 수정 성공'
+}
+
+{
+	error: 'err',
+  code: 404,
+  message: '일치하는 유저가 없습니다.'
+}
+```
+
+
+
+### 게시글 삭제 (19/12/22)
+
+#### DELETE /instagram/post
+
+| Key    | Data Type | Desc.      |          |
+| :----- | :-------- | :--------- | :------- |
+| userId | string    |            | Not Null |
+| postId | string    | 글 created | Not Null |
+
+```
+{
+	result: 'success',
+	resultCode: 200,
+	message: '데이터 삭제 성공'
+}
+
+{
+	error: 'err',
+  code: 404,
+  message: '일치하는 유저가 없습니다.'
+}
+```
+
+
+
 ## 검색
 
 ### 유저 ID 로 유저 정보 가져오기

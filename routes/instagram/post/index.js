@@ -50,6 +50,51 @@ router.post('/', upload.array('file', 5), async (req, res) => {
   return res.send(result);
 });
 
+// 글삭제
+router.delete('/', async (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+
+  const data = { userId, postId };
+
+  if (isUndefined([userId, postId])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: 400,
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+
+  const result = await post.delete(data);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  return res.send(result);
+});
+
+// 글수정
+router.put('/', async (req, res) => {
+  const userId = req.body.userId || null;
+  const postId = req.body.postId || null;
+  const content = req.body.content || null;
+
+  const data = { userId, postId, content };
+
+  if (isUndefined([userId, postId, content])) {
+    return res.status(400).json({
+      error: 'Check Parameters',
+      code: 400,
+      message: '파라미터 값이 없습니다.'
+    });
+  }
+console.log(data)
+  const result = await post.update(data);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  return res.send(result);
+});
+
 // 좋아요
 router.post('/like', async (req, res) => {
   const userId = req.body.userId; // user id
