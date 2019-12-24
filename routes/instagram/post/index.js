@@ -87,7 +87,7 @@ router.put('/', async (req, res) => {
       message: '파라미터 값이 없습니다.'
     });
   }
-console.log(data)
+
   const result = await post.update(data);
   if (result.error) {
     return res.status(400).json(result);

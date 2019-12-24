@@ -1,4 +1,4 @@
-module.exports = async (client, data) => {
+module.exports = async (client, userId) => {
   const query = {
     name: 'all-post-for-main',
     text: `SELECT

@@ -7,11 +7,11 @@ const _update = require('./_update');
 
 module.exports = client => {
   return {
-    get: async data => await _get(client, data),
-    upload: async data => await _upload(client, data),
-    contentLike: async data => await _contentLike(client, data),
-    allPost: async userId => await _allPost(client, userId),
-    delete: async data => await _delete(client, data),
-    update: async data => await _update(client, data)
+    get: data => _get(client, data),
+    upload: data => _upload(client, data),
+    contentLike: data => _contentLike(client, data),
+    allPost: userId => _allPost(client, userId),
+    delete: data => _delete(client, data),
+    update: data => _update(client, data)
   };
 };
