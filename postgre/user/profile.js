@@ -4,22 +4,14 @@ module.exports = client => {
    * NOTE test 용 전체 유저 리스트
    */
   const updateProfile = async data => {
-    const {
-      userId,
-      password,
-      name,
-      phone,
-      profile_img,
-      title,
-      birthday
-    } = data;
+    const { userId, name, phone, profile_img, title, birthday } = data;
 
     const query = {
       name: 'update_profile',
       text: `UPDATE public."user"
         SET name = $1, phone = $2, profile_img = $3, title = $4, birthday = $5
-        WHERE id = $6 AND password = $7`,
-      values: [name, phone, profile_img, title, birthday, userId, password]
+        WHERE id = $6`,
+      values: [name, phone, profile_img, title, birthday, userId]
     };
 
     try {

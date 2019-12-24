@@ -10,7 +10,6 @@ const { user } = require('./../../../postgre');
  */
 router.put('/info', async (req, res) => {
   const userId = req.body.userId;
-  const password = req.body.password || null;
   const name = req.body.name || null;
   const phone = req.body.phone || null;
   const profile_img = req.body.profile_img || null;
@@ -26,7 +25,6 @@ router.put('/info', async (req, res) => {
 
   const data = {
     userId,
-    password,
     name,
     phone,
     profile_img,
