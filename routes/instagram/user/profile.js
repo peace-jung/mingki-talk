@@ -31,6 +31,7 @@ router.put('/info', async (req, res) => {
     title,
     birthday
   };
+  console.log('body ::', req.body);
   console.log('data ::', data);
 
   const result = await user.profile.updateProfile(data);
