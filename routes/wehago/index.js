@@ -4,11 +4,11 @@ const router = express.Router();
 // SECTION /wehago
 
 // use routers
-router.get('/', async (req, res) => {
-  console.log('GET /wehago');
+router.post('/', async (req, res) => {
+  console.log('POST /wehago');
 
-  console.log(req.query);
-  res.send({ result: req.query, type: 'GET' });
+  console.log(req.body);
+  res.send({ result: req.body, type: 'POST' });
 });
 
 module.exports = router;
