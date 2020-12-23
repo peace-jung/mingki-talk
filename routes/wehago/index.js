@@ -3,10 +3,7 @@ const router = express.Router();
 
 // SECTION /wehago
 
-/**
- * get token
- * /wehago
- */
+// use routers
 router.get('/', async (req, res) => {
   console.log('GET /wehago');
 
