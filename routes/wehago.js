@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { isUndefined } = require('./../../../utils/validate');
-const { user } = require('./../../../postgre');
 
 // SECTION /wehago
 
 /**
  * get token
- * /instagram/user/login
+ * /wehago
  */
 router.get('/', async (req, res) => {
   console.log('GET /wehago');
