@@ -7,8 +7,8 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   console.log('GET /wehago');
 
-  console.log(req.params);
-  res.send({ result: 'hello', type: 'GET' });
+  console.log(req);
+  res.send({ result: req, type: 'GET' });
 });
 
 module.exports = router;
