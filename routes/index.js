@@ -3,8 +3,12 @@ const router = express.Router();
 
 // import routers
 const instagram = require('./instagram');
+const test = require('./test.js');
+const wehago = require('./wehago');
 
 // use routers
 router.use('/instagram', instagram);
+router.use('/test', test);
+router.use('/wehago', wehago);
 
 module.exports = router;

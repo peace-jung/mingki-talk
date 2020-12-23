@@ -12,6 +12,7 @@ const comment = require('./comment');
 const search = require('./search');
 const follow = require('./follow');
 // const list = require('./list');
+const wehago = require('./wehago');
 
 // use routers
 router.use('/user', user);
@@ -20,6 +21,7 @@ router.use('/comment', comment);
 router.use('/search', search);
 router.use('/follow', follow);
 // router.use('/list', list);
+router.use('/wehago', wehago);
 
 router.get('/download/:filename', async (req, res) => {
   const filename = req.params.filename;
